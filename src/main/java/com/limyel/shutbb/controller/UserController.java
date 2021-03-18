@@ -1,5 +1,6 @@
 package com.limyel.shutbb.controller;
 
+import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
@@ -37,7 +38,8 @@ public class UserController {
 
     @GetMapping(value = "/{id:[0-9]*}")
     @ResponseBody
-    public String retriveUserById(@PathVariable int id, HttpServletRequest request) {
+    public String retriveUserById(@CurrentUser User user, @PathVariable int id, HttpServletRequest request) {
+        System.out.println(user.getUsername());
         return "";
     }
 

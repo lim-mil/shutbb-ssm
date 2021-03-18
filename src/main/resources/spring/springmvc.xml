@@ -9,8 +9,16 @@
         https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.limyel.shutbb.resolver.CurrentUserResolver">
+                <property name="authorizationService" ref="authorizationService"/>
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
 
     <context:component-scan base-package="com.limyel.shutbb.controller"/>
+    <context:component-scan base-package="com.limyel.shutbb.config"/>
 
     <mvc:interceptors>
         <mvc:interceptor>
@@ -23,8 +31,12 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="requestDateParamMethodArgumentResolver" value=""/>
-    </bean>
+<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
+<!--        <property name="customArgumentResolvers">-->
+<!--            <list>-->
+<!--                <bean class="com.limyel.shutbb.resolver.CurrentUserResolver"/>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--    </bean>-->
 
 </beans>

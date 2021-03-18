@@ -19,22 +19,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        MethodParameter[] all = ((HandlerMethod) handler).getMethodParameters();
-        System.out.println(all.length);
-        for (MethodParameter a: all) {
-
-            if (a.hasParameterAnnotation(PathVariable.class)) {
-                System.out.println("alllll");
-                PathVariable pathVariable = a.getParameterAnnotation(PathVariable.class);
-
-                System.out.println(pathVariable);
-
-            }
-
-            System.out.println(a.getClass());
-            System.out.println(a.toString());
-        }
-
         if (((HandlerMethod) handler).hasMethodAnnotation(IgnoreAuth.class)) {
             return true;
         }
@@ -44,7 +28,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
         if (bearer != null) {
             String token = bearer.split(" ")[1];
             User user = authorizationService.parseJwtToken(token);
-            System.out.println(user.getUsername());
             if (user != null) {
                 return true;
             }
