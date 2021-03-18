@@ -12,4 +12,19 @@
 
     <context:component-scan base-package="com.limyel.shutbb.controller"/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.limyel.shutbb.interceptor.CORSInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.limyel.shutbb.interceptor.AuthorizetionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="requestDateParamMethodArgumentResolver" value=""/>
+    </bean>
+
 </beans>

@@ -1,10 +1,12 @@
-package com.limyel.shutbb.pojo;
+package com.limyel.shutbb.entity;
 
 import java.sql.Timestamp;
 
 public class BaseModel {
     private int id;
     private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private boolean isDelete;
 
     public int getId() {
         return id;
@@ -38,6 +40,4 @@ public class BaseModel {
         isDelete = delete;
     }
 
-    private Timestamp updatedAt;
-    private boolean isDelete;
 }

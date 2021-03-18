@@ -1,6 +1,4 @@
-package com.limyel.shutbb.pojo;
-
-import java.sql.Timestamp;
+package com.limyel.shutbb.entity;
 
 public class User extends BaseModel {
 

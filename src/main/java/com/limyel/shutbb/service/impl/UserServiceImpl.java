@@ -1,7 +1,8 @@
-package com.limyel.shutbb.service;
+package com.limyel.shutbb.service.impl;
 
 import com.limyel.shutbb.dao.UserDao;
-import com.limyel.shutbb.pojo.User;
+import com.limyel.shutbb.entity.User;
+import com.limyel.shutbb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,15 +2,45 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.UserDao">
-    <insert id="create" parameterType="com.limyel.shutbb.pojo.User">
-        
+    <sql id="userInfo">username, email, password, signature, </sql>
+    
+    <insert id="create" parameterType="com.limyel.shutbb.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="signature != null">
+                signature,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="signature != null">
+                #{signature},
+            </if>
+        </trim>
     </insert>
     
-    <select id="retriveById" resultType="com.limyel.shutbb.pojo.User">
+    <select id="retriveById" resultType="com.limyel.shutbb.entity.User">
 
     </select>
 
-    <update id="update" parameterType="com.limyel.shutbb.pojo.User">
+    <update id="update" parameterType="com.limyel.shutbb.entity.User">
 
     </update>
 
