@@ -1,0 +1,28 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.SubForumDao">
+    <sql id="insertFields">
+        (name, user_id)
+    </sql>
+    <insert id="create" parameterType="com.limyel.shutbb.entity.SubForum">
+        insert into sub_forum <include refid="insertFields"/> values (#{name}, #{userId});
+    </insert>
+    
+    <select id="retriveById" resultType="com.limyel.shutbb.entity.SubForum">
+        select * from sub_forum where id=#{id};
+    </select>
+    
+    <update id="update" parameterType="com.limyel.shutbb.entity.SubForum">
+        update sub_forum
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+        </set>
+        where id=#{id};
+    </update>
+
+    <update id="deleteById">
+        update sub_forum set is_delete=true where is=#{id};
+    </update>
+</mapper>

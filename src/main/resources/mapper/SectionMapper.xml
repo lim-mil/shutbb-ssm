@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.SectionDao">
+    <sql id="insertFields"> (name, sub_forum_id, user_id) </sql>
+
+    <insert id="create" parameterType="com.limyel.shutbb.entity.Section">
+        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});
+    </insert>
+
+    <select id="retriveById" resultType="com.limyel.shutbb.entity.Section">
+        select * from section where id=#{id};
+    </select>
+
+    <update id="update" parameterType="com.limyel.shutbb.entity.Section">
+        update section
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="subForumId != null">sub_forum_id=#{subForumId},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+        </set>
+        where id=#{id};
+    </update>
+
+    <update id="deleteById">
+        update section set is_delete=true where id=#{id};
+    </update>
+    
+</mapper>

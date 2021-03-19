@@ -2,8 +2,17 @@ package com.limyel.shutbb.entity;
 
 public class Section extends BaseModel {
     private String name;
+    private boolean isDraft;
     private int subForumId;
-    private int userId;         // 版主
+    private int userId;
+
+    public boolean isDraft() {
+        return isDraft;
+    }
+
+    public void setDraft(boolean draft) {
+        isDraft = draft;
+    }
 
     public String getName() {
         return name;

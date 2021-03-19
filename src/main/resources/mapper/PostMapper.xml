@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.PostDao">
+    <sql id="insertFields">(content, is_draft, user_id, topic_id)</sql>
+
+    <insert id="create" parameterType="com.limyel.shutbb.entity.Post">
+        insert into post <include refid="insertFields"/> values (content=#{content}, is_draft=#{isDraft}, user_id=#{userId}, topic_id=#{topicId});
+    </insert>
+
+    <select id="retriveById" resultType="com.limyel.shutbb.entity.Post">
+        select * from post where id=#{id};
+    </select>
+
+    <update id="update" parameterType="com.limyel.shutbb.entity.Post">
+        update post
+        <set>
+            <if test="content != null">content=#{content},</if>
+            <if test="isDraft != null">is_draft=#{isDraft},</if>
+        </set>
+    </update>
+
+    <update id="deleteById">
+        update post set is_delete=true where id=#{id};
+    </update>
+</mapper>

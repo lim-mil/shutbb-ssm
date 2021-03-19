@@ -18,7 +18,6 @@
     </mvc:annotation-driven>
 
     <context:component-scan base-package="com.limyel.shutbb.controller"/>
-    <context:component-scan base-package="com.limyel.shutbb.config"/>
 
     <mvc:interceptors>
         <mvc:interceptor>
@@ -31,12 +30,5 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
-<!--        <property name="customArgumentResolvers">-->
-<!--            <list>-->
-<!--                <bean class="com.limyel.shutbb.resolver.CurrentUserResolver"/>-->
-<!--            </list>-->
-<!--        </property>-->
-<!--    </bean>-->
 
 </beans>

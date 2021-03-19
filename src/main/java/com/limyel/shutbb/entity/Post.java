@@ -2,8 +2,17 @@ package com.limyel.shutbb.entity;
 
 public class Post extends BaseModel {
     private String content;
+    private boolean isDraft;
     private int userId;
     private int topicId;
+
+    public boolean isDraft() {
+        return isDraft;
+    }
+
+    public void setDraft(boolean draft) {
+        isDraft = draft;
+    }
 
     public String getContent() {
         return content;

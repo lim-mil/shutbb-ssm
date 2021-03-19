@@ -16,7 +16,6 @@
 
     <context:component-scan base-package="com.limyel.shutbb.service.impl"/>
     <context:component-scan base-package="com.limyel.shutbb.resolver"/>
-    <context:component-scan base-package="com.limyel.shutbb.config"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
 

@@ -37,14 +37,21 @@
     </insert>
     
     <select id="retriveById" resultType="com.limyel.shutbb.entity.User">
-
+        select * from user where id=#{id};
     </select>
 
     <update id="update" parameterType="com.limyel.shutbb.entity.User">
-
+        update user
+        <set>
+            <if test="username != null">username=#{username},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="signature != null">signature=#{signature},</if>
+            <if test="status != null">status=#{status,}</if>
+        </set>
+        where id=#{id};
     </update>
 
     <update id="deleteById">
-
+        update user set is_delete=true where id=#{id};
     </update>
 </mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.TopicDao">
+    <sql id="insertFields">(title, content, is_draft, section_id, user_id)</sql>
+
+    <insert id="create" parameterType="com.limyel.shutbb.entity.Topic">
+        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, is_draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});
+    </insert>
+    
+    <select id="retriveById" resultType="com.limyel.shutbb.entity.Topic">
+        select * from topic where id=#{id};
+    </select>
+
+    <update id="update" parameterType="com.limyel.shutbb.entity.Topic">
+        update topic
+        <set>
+            <if test="title != null">title=#{title},</if>
+            <if test="content != null">content=#{content},</if>
+            <if test="content != null">is_draft=#{idDraft},</if>
+            <if test="sectionId != null">section_id=#{sectionId},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+        </set>
+        where id=#{id};
+    </update>
+
+    <update id="deleteById">
+        update topic is_delete=true where id=#{id};
+    </update>
+</mapper>

@@ -1,0 +1,10 @@
+package com.limyel.shutbb.dao;
+
+import com.limyel.shutbb.entity.Section;
+
+public interface SectionDao {
+    int create(Section section);
+    Section retriveById(int id);
+    int update(Section section);
+    int deleteById(int id);
+}
