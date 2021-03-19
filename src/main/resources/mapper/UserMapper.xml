@@ -40,6 +40,15 @@
         select * from user where id=#{id};
     </select>
 
+    <select id="retrive" resultType="com.limyel.shutbb.entity.User" parameterType="com.limyel.shutbb.entity.User">
+        select * from user
+        <where>
+            <if test="username != null">username=#{username},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="password != null">password=#{password},</if>
+        </where>
+    </select>
+
     <update id="update" parameterType="com.limyel.shutbb.entity.User">
         update user
         <set>

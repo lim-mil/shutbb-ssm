@@ -5,6 +5,7 @@ import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.service.UserService;
+import com.limyel.shutbb.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,12 @@ public class UserController {
     @PostMapping(value = "/login")
     @ResponseBody
     public String login(@RequestBody User user, HttpServletRequest request) {
-        return "";
+        String token;
+        User userTmp = userService.retrive(user);
+        if (userTmp != null) {
+            token = authorizationService.generateJwtToken(userTmp);
+        }
+        return new Response(200, "", "").dumps();
     }
 
     @GetMapping(value = "/{id:[0-9]*}")
