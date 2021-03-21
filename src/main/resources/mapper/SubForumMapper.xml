@@ -6,7 +6,8 @@
         (name, user_id)
     </sql>
     <insert id="create" parameterType="com.limyel.shutbb.entity.SubForum">
-        insert into sub_forum <include refid="insertFields"/> values (#{name}, #{userId});
+<!--        insert into sub_forum <include refid="insertFields"/> values (#{name}, #{userId});-->
+        insert into sub_forum (name, user_id) values (#{name}, #{userId});
     </insert>
     
     <select id="retriveById" resultType="com.limyel.shutbb.entity.SubForum">

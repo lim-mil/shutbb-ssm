@@ -5,7 +5,8 @@
     <sql id="insertFields"> (name, sub_forum_id, user_id) </sql>
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Section">
-        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});
+<!--        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});-->
+        insert into section (name, sub_forum_id, user_id) values (#{name}, #{subForumId}, #{userId});
     </insert>
 
     <select id="retriveById" resultType="com.limyel.shutbb.entity.Section">

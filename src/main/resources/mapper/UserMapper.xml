@@ -43,9 +43,9 @@
     <select id="retrive" resultType="com.limyel.shutbb.entity.User" parameterType="com.limyel.shutbb.entity.User">
         select * from user
         <where>
-            <if test="username != null">username=#{username},</if>
-            <if test="email != null">email=#{email},</if>
-            <if test="password != null">password=#{password},</if>
+            <if test="username != null">username=#{username}</if>
+            <if test="email != null">and email=#{email}</if>
+            <if test="password != null">and password=#{password}</if>
         </where>
     </select>
 
@@ -55,7 +55,7 @@
             <if test="username != null">username=#{username},</if>
             <if test="email != null">email=#{email},</if>
             <if test="signature != null">signature=#{signature},</if>
-            <if test="status != null">status=#{status,}</if>
+            <if test="status != null">status=#{status},</if>
         </set>
         where id=#{id};
     </update>

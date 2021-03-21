@@ -5,7 +5,8 @@
     <sql id="insertFields">(title, content, is_draft, section_id, user_id)</sql>
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Topic">
-        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, is_draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});
+<!--        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, is_draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});-->
+        insert into topic (title, content, is_draft, section_id, user_id) values (#{title}, #{title}, #{isDraft}, #{sectionId}, #{userId});
     </insert>
     
     <select id="retriveById" resultType="com.limyel.shutbb.entity.Topic">

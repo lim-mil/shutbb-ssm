@@ -5,7 +5,11 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-    <mappers>
+    <mappers >
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/SubForumMapper.xml"/>
+        <mapper resource="mapper/SectionMapper.xml"/>
+        <mapper resource="mapper/TopicMapper.xml"/>
+        <mapper resource="mapper/PostMapper.xml"/>
     </mappers>
 </configuration>

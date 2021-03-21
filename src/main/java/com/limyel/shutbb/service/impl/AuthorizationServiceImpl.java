@@ -28,7 +28,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         String token = JWT.create()
                 .withClaim("username", user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60))
+                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*8))
                 .sign(algorithm);
         return token;
     }
