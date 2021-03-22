@@ -1,5 +1,8 @@
 package com.limyel.shutbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post extends BaseModel {
     private String content;
     private boolean isDraft;

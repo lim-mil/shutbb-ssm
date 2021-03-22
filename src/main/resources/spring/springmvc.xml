@@ -13,6 +13,7 @@
         <mvc:argument-resolvers>
             <bean class="com.limyel.shutbb.resolver.CurrentUserResolver">
                 <property name="authorizationService" ref="authorizationService"/>
+                <property name="userDao" ref="userDao"/>
             </bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>

@@ -28,6 +28,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         String token = JWT.create()
                 .withClaim("username", user.getUsername())
+                .withClaim("id", user.getId())
                 .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*8))
                 .sign(algorithm);
         return token;
@@ -40,6 +41,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             DecodedJWT jwt = verifier.verify(token);
             User user = new User();
             user.setUsername(jwt.getClaim("username").asString());
+            user.setId(jwt.getClaim("id").asInt());
             return user;
         } catch (TokenExpiredException e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@ import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.service.UserService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class UserController {
     @PostMapping(value = "/register")
     @ResponseBody
     public Response<String> register(@RequestBody User user, HttpServletRequest request) {
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));           // md5
         userService.create(user);
         String token = authorizationService.generateJwtToken(user);
 
@@ -38,13 +40,13 @@ public class UserController {
     @ResponseBody
     public Response<String> login(@RequestBody User user, HttpServletRequest request) {
         String token = null;
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));           // md5
         User userTmp = userService.retrive(user);
         if (userTmp != null) {
             token = authorizationService.generateJwtToken(userTmp);
         } else {
             return Response.unauthorized();
         }
-        System.out.println(user.getUsername());
         return Response.success(token);
     }
 

@@ -7,6 +7,8 @@ import com.limyel.shutbb.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
     @Autowired
@@ -34,5 +36,23 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response<Integer> deleteById(int id) {
         return null;
+    }
+
+    @Override
+    public Response<List<Post>> retriveByTopic(int topicId) {
+        List<Post> result = postDao.retriveByTopic(topicId);
+        return Response.success(result);
+    }
+
+    @Override
+    public Response<List<Post>> retriveByUser(int userId) {
+        List<Post> result = postDao.retriveByUser(userId);
+        return Response.success(result);
+    }
+
+    @Override
+    public Response<List<Post>> retriveDraft(int userId) {
+        List<Post> result = postDao.retriveDraft(userId);
+        return Response.success(result);
     }
 }
