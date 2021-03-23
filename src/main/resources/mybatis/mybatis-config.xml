@@ -6,9 +6,9 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-    <plugins>
-        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
-    </plugins>
+<!--    <plugins>-->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>-->
+<!--    </plugins>-->
 
     <mappers >
         <mapper resource="mapper/UserMapper.xml"/>
