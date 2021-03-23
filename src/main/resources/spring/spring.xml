@@ -14,17 +14,20 @@
     <context:property-placeholder location="classpath:db.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:email.properties" ignore-unresolvable="true"/>
 
     <context:component-scan base-package="com.limyel.shutbb.service.impl"/>
     <context:component-scan base-package="com.limyel.shutbb.resolver"/>
+    <context:component-scan base-package="com.limyel.shutbb.util"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
     <import resource="classpath:spring/spring-kaptcha.xml"/>
     <import resource="classpath:spring/spring-redis.xml"/>
+    <import resource="classpath:spring/spring-email.xml"/>
 
     <!--  自己的类  -->
     <bean class="com.limyel.shutbb.service.impl.AuthorizationServiceImpl" id="authorizationService">
-        <property name="secret" value="${JWT_SECRET}"/>
+        <property name="secret" value="${config.jwt_secret}"/>
     </bean>
     <bean class="com.limyel.shutbb.util.RedisUtil" id="redisUtil">
         <property name="redisTemplate" ref="redisTemplate"/>
