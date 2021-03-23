@@ -5,6 +5,11 @@
     <sql id="insertFields">
         (name, user_id)
     </sql>
+
+    <sql id="retriveFields">
+        id, created_at, updated_at, name, user_id
+    </sql>
+
     <insert id="create" parameterType="com.limyel.shutbb.entity.SubForum">
 <!--        insert into sub_forum <include refid="insertFields"/> values (#{name}, #{userId});-->
         insert into sub_forum (name, user_id) values (#{name}, #{userId});
@@ -26,4 +31,8 @@
     <update id="deleteById">
         update sub_forum set is_delete=true where is=#{id};
     </update>
+
+    <select id="retrive" resultType="com.limyel.shutbb.entity.SubForum">
+        select <include refid="retriveFields"/> from sub_forum where is_delete=false;
+    </select>
 </mapper>

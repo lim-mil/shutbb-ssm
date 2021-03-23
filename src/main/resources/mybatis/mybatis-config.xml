@@ -5,6 +5,11 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
+
     <mappers >
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/SubForumMapper.xml"/>
@@ -12,4 +17,5 @@
         <mapper resource="mapper/TopicMapper.xml"/>
         <mapper resource="mapper/PostMapper.xml"/>
     </mappers>
+
 </configuration>

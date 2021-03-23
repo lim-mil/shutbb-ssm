@@ -3,6 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.SectionDao">
     <sql id="insertFields"> (name, sub_forum_id, user_id) </sql>
+    <sql id="retriveFields">
+        id, created_at, updated_at, name, user_id
+    </sql>
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Section">
 <!--        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});-->
@@ -26,5 +29,9 @@
     <update id="deleteById">
         update section set is_delete=true where id=#{id};
     </update>
-    
+
+    <select id="retriveBySubForum" resultType="com.limyel.shutbb.entity.Section">
+        select <include refid="retriveFields"/> from section where sub_forum_id=#{subForumId};
+    </select>
+
 </mapper>

@@ -2,6 +2,8 @@ package com.limyel.shutbb.controller;
 
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
+import com.limyel.shutbb.annotation.Page;
+import com.limyel.shutbb.annotation.Size;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.entity.Post;
 import com.limyel.shutbb.entity.User;
@@ -21,31 +23,16 @@ public class PostController {
     PostService postService;
 
     /**
-     *
-     * @param post
-     * @param request
-     * @param response
-     * @return
-     */
-    @PostMapping("")
-    @ResponseBody
-    public Response<Integer> create(@RequestBody Post post, HttpServletRequest request, HttpServletResponse response) {
-        Response<Integer> serviceResponse = postService.create(post);
-        response.setStatus(serviceResponse.getCode());
-        return serviceResponse;
-    }
-
-    /**
      * 获取某 topic 下的 post
      * @param topicId
-     * @param request
-     * @param response
+     * @param page
+     * @param size
      * @return
      */
     @GetMapping("/topic/{topicId}")
     @IgnoreAuth
     @ResponseBody
-    public Response<List<Post>> retriveByTopic(@PathVariable("topicId") int topicId, HttpServletRequest request, HttpServletResponse response) {
+    public Response<List<Post>> retriveByTopic(@PathVariable("topicId") int topicId, @Page int page, @Size int size) {
         return postService.retriveByTopic(topicId);
     }
 
@@ -59,7 +46,6 @@ public class PostController {
     @GetMapping("/user")
     @ResponseBody
     public Response<List<Post>> retriveByCurrentUser(@CurrentUser User user, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(user.getId());
         return postService.retriveByUser(user.getId());
     }
 
@@ -88,5 +74,22 @@ public class PostController {
     @ResponseBody
     public Response<List<Post>> retriveDrfat(@CurrentUser User user, HttpServletRequest request, HttpServletResponse response) {
         return postService.retriveDraft(user.getId());
+    }
+
+    @PostMapping("")
+    @ResponseBody
+    public Response<Integer> create(@RequestBody Post post, @CurrentUser User user, HttpServletResponse response) {
+        post.setUserId(user.getId());
+        Response<Integer> serviceResponse = postService.create(post);
+        response.setStatus(serviceResponse.getCode());
+        return serviceResponse;
+    }
+
+    @DeleteMapping("/{postId}")
+    @ResponseBody
+    public Response<Integer> deleteByid(@CurrentUser User user, @PathVariable("postId") int postId, HttpServletResponse response) {
+        Response<Integer> serviceResponse = postService.deleteById(postId, user);
+        response.setStatus(serviceResponse.getCode());
+        return serviceResponse;
     }
 }

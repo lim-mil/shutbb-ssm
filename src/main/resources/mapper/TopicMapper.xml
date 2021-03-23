@@ -3,6 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.TopicDao">
     <sql id="insertFields">(title, content, is_draft, section_id, user_id)</sql>
+    <sql id="retriveFields">
+        id, created_at, updated_at, title, content, user_id
+    </sql>
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Topic">
 <!--        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, is_draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});-->
@@ -26,6 +29,18 @@
     </update>
 
     <update id="deleteById">
-        update topic is_delete=true where id=#{id};
+        update topic set is_delete=true where id=#{id} and user_id=#{user.id};
     </update>
+
+    <select id="retriveBySection" resultType="com.limyel.shutbb.entity.Topic">
+        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=false and section_id=#{sectionId};
+    </select>
+
+    <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Topic">
+        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=false and user_id=#{userId};
+    </select>
+
+    <select id="retriveDraft" resultType="com.limyel.shutbb.entity.Topic">
+        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=true and user_id=#{userId};
+    </select>
 </mapper>

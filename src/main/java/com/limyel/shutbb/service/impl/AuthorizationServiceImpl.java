@@ -5,13 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
-import org.jose4j.jwt.JwtClaims;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -26,12 +21,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public String generateJwtToken(User user) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        String token = JWT.create()
+        return JWT.create()
                 .withClaim("username", user.getUsername())
                 .withClaim("id", user.getId())
                 .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*8))
                 .sign(algorithm);
-        return token;
     }
 
     @Override

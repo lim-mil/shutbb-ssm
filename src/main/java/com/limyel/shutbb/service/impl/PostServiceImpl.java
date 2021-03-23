@@ -1,8 +1,10 @@
 package com.limyel.shutbb.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.dao.PostDao;
 import com.limyel.shutbb.entity.Post;
+import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +13,12 @@ import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
+    private PostDao postDao;
+
     @Autowired
-    PostDao postDao;
+    public void setPostDao(PostDao postDao) {
+        this.postDao = postDao;
+    }
 
     @Override
     public Response<Integer> create(Post post) {
@@ -25,6 +31,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response<Post> retriveById(int id) {
+
         return null;
     }
 
@@ -34,8 +41,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response<Integer> deleteById(int id) {
-        return null;
+    public Response<Integer> deleteById(int id, User user) {
+        int result = postDao.deleteById(id, user);
+        if (result == 0) {
+            return Response.badRequest(result);
+        }
+        return Response.success(result);
     }
 
     @Override
@@ -54,5 +65,12 @@ public class PostServiceImpl implements PostService {
     public Response<List<Post>> retriveDraft(int userId) {
         List<Post> result = postDao.retriveDraft(userId);
         return Response.success(result);
+    }
+
+    @Override
+    public Response<List<Post>> retrivePage(int page, int size) {
+        PageHelper.startPage(page, size);
+        List<Post> result = null;
+        return null;
     }
 }

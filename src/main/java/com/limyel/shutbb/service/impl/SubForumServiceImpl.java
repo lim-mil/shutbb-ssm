@@ -7,10 +7,16 @@ import com.limyel.shutbb.service.SubForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubForumServiceImpl implements SubForumService {
+    private SubForumDao subForumDao;
+
     @Autowired
-    SubForumDao subForumDao;
+    public void setSubForumDao(SubForumDao subForumDao) {
+        this.subForumDao = subForumDao;
+    }
 
     @Override
     public Response<Integer> create(SubForum subForum) {
@@ -36,5 +42,11 @@ public class SubForumServiceImpl implements SubForumService {
     @Override
     public int deleteById(int id) {
         return subForumDao.deleteById(id);
+    }
+
+    @Override
+    public Response<List<SubForum>> retrive() {
+        List<SubForum> result = subForumDao.retrive();
+        return Response.success(result);
     }
 }

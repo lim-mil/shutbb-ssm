@@ -7,10 +7,16 @@ import com.limyel.shutbb.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SectionServiceImpl implements SectionService {
+    private SectionDao sectionDao;
+
     @Autowired
-    SectionDao sectionDao;
+    public void setSectionDao(SectionDao sectionDao) {
+        this.sectionDao = sectionDao;
+    }
 
     @Override
     public Response<Integer> create(Section section) {
@@ -31,5 +37,11 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public Response<Integer> deleteById(int id) {
         return null;
+    }
+
+    @Override
+    public Response<List<Section>> retriveBySubForum(int subForumId) {
+        List<Section> result = sectionDao.retriveBySubForum(subForumId);
+        return Response.success(result);
     }
 }

@@ -15,6 +15,7 @@
                 <property name="authorizationService" ref="authorizationService"/>
                 <property name="userDao" ref="userDao"/>
             </bean>
+            <bean class="com.limyel.shutbb.resolver.PageSizeResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
