@@ -13,14 +13,21 @@
     <!--  ignore-unresolvable 不加这个属性，则无法引入多个配置文件  -->
     <context:property-placeholder location="classpath:db.properties" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
 
     <context:component-scan base-package="com.limyel.shutbb.service.impl"/>
     <context:component-scan base-package="com.limyel.shutbb.resolver"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
+    <import resource="classpath:spring/spring-kaptcha.xml"/>
+    <import resource="classpath:spring/spring-redis.xml"/>
 
+    <!--  自己的类  -->
     <bean class="com.limyel.shutbb.service.impl.AuthorizationServiceImpl" id="authorizationService">
         <property name="secret" value="${JWT_SECRET}"/>
+    </bean>
+    <bean class="com.limyel.shutbb.util.RedisUtil" id="redisUtil">
+        <property name="redisTemplate" ref="redisTemplate"/>
     </bean>
 
 </beans>
