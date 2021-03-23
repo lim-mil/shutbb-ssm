@@ -50,7 +50,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response<List<Post>> retriveByTopic(int topicId) {
+    public Response<List<Post>> retriveByTopic(int topicId, int page, int size) {
+        PageHelper.startPage(page, size);
         List<Post> result = postDao.retriveByTopic(topicId);
         return Response.success(result);
     }

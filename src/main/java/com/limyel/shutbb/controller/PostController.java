@@ -1,5 +1,6 @@
 package com.limyel.shutbb.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.annotation.Page;
@@ -33,7 +34,7 @@ public class PostController {
     @IgnoreAuth
     @ResponseBody
     public Response<List<Post>> retriveByTopic(@PathVariable("topicId") int topicId, @Page int page, @Size int size) {
-        return postService.retriveByTopic(topicId);
+        return postService.retriveByTopic(topicId, page, size);
     }
 
     /**

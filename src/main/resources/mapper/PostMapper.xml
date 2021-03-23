@@ -9,11 +9,11 @@
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Post">
 <!--        insert into post <include refid="insertFields"/> values (content=#{content}, is_draft=#{isDraft}, user_id=#{userId}, topic_id=#{topicId});-->
-        insert into post (content, is_draft, user_id, topic_id) values (#{content}, #{isDraft}, #{userId}, #{topicId});
+        insert into post (content, is_draft, user_id, topic_id) values (#{content}, #{isDraft}, #{userId}, #{topicId})
     </insert>
 
     <select id="retriveById" resultType="com.limyel.shutbb.entity.Post">
-        select * from post where id=#{id};
+        select * from post where id=#{id}
     </select>
 
     <update id="update" parameterType="com.limyel.shutbb.entity.Post">
@@ -25,19 +25,19 @@
     </update>
 
     <update id="deleteById">
-        update post set is_delete=true where id=#{id} and user_id=#{user.id};
+        update post set is_delete=true where id=#{id} and user_id=#{user.id}
     </update>
 
     <select id="retriveByTopic" resultType="com.limyel.shutbb.entity.Post">
 <!--        select <include refid="retriveFields"/> from post where is_delete=false and is_draft=false and topic_id=#{id};-->
-        select id, created_at, updated_at, content, user_id from post where is_delete=false and is_draft=false and topic_id=#{topicId};
+        select id, created_at, updated_at, content, user_id from post where is_delete=false and is_draft=false and topic_id=#{topicId}
     </select>
 
     <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Post">
-        select <include refid="retriveFields"/> from post where is_delete=false and is_draft=false and user_id=#{userId};
+        select <include refid="retriveFields"/> from post where is_delete=false and is_draft=false and user_id=#{userId}
     </select>
 
     <select id="retriveDraft" resultType="com.limyel.shutbb.entity.Post">
-        select <include refid="retriveFields"/> from post where is_delete=false and is_draft=true and user_id=#{userId};
+        select <include refid="retriveFields"/> from post where is_delete=false and is_draft=true and user_id=#{userId}
     </select>
 </mapper>
