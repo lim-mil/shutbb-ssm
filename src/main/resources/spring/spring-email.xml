@@ -14,13 +14,16 @@
         <property name="username" value="${email.username}"/>
         <property name="password" value="${email.password}"/>
         <property name="port" value="${email.port}"/>
+
     </bean>
     <bean class="org.springframework.mail.SimpleMailMessage" id="mailMessage">
         <property name="from" value="${email.from}"/>
         <property name="subject" value="${email.subject}"/>
     </bean>
 
-    <bean class="com.limyel.shutbb.util.EmailUtil" id="emailUtil">
+    <bean class="com.limyel.shutbb.util.EmailUtil" id="emailUtil" init-method="setProperties">
+<!--        <property name="mailMessage" ref="mailMessage"/>-->
+        <property name="host" value="${config.host}"/>
     </bean>
 
 </beans>

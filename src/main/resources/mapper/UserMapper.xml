@@ -4,7 +4,7 @@
 <mapper namespace="com.limyel.shutbb.dao.UserDao">
     <sql id="userInfo">username, email, password, signature, </sql>
     
-    <insert id="create" parameterType="com.limyel.shutbb.entity.User">
+    <insert id="create" parameterType="com.limyel.shutbb.entity.User" keyProperty="id">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="username != null">
