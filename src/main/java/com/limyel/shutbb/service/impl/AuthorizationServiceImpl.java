@@ -7,20 +7,22 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
+import com.limyel.shutbb.util.ConfigUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 public class AuthorizationServiceImpl implements AuthorizationService {
+    private ConfigUtil configUtil;
 
-    private String secret;
-
-    public void setSecret(String secret) {
-        this.secret = secret;
+    @Autowired
+    public void setConfigUtil(ConfigUtil configUtil) {
+        this.configUtil = configUtil;
     }
 
     @Override
     public String generateJwtToken(User user) {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
+        Algorithm algorithm = Algorithm.HMAC256(configUtil.getJwtSecret());
         return JWT.create()
                 .withClaim("username", user.getUsername())
                 .withClaim("id", user.getId())
@@ -30,7 +32,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public User parseJwtToken(String token) {
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(configUtil.getJwtSecret())).build();
         try {
             DecodedJWT jwt = verifier.verify(token);
             User user = new User();

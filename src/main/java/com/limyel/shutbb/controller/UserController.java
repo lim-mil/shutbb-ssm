@@ -26,7 +26,6 @@ public class UserController {
     @PostMapping(value = "/register")
     @ResponseBody
     public Response<String> register(@RequestBody User user, HttpServletRequest request) {
-        user.setPassword(DigestUtils.md5Hex(user.getPassword()));           // md5
         userService.create(user);
         String token = authorizationService.generateJwtToken(user);
 

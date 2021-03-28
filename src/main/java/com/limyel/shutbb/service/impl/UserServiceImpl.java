@@ -5,16 +5,26 @@ import com.limyel.shutbb.dao.UserDao;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.UserService;
 import com.limyel.shutbb.util.CodeUtil;
+import com.limyel.shutbb.util.ConfigUtil;
 import com.limyel.shutbb.util.EmailUtil;
 import com.limyel.shutbb.util.RedisUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.ObjectInputFilter;
 
 @Service
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
     private EmailUtil emailUtil;
     private RedisUtil redisUtil;
+    private ConfigUtil configUtil;
+
+    @Autowired
+    public void setConfigUtil(ConfigUtil configUtil) {
+        this.configUtil = configUtil;
+    }
 
     @Autowired
     public void setUserDao(UserDao userDao) {
@@ -33,6 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int create(User user) {
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
         user.setStatus(UserStatus.INACTIVED.getCode());
         String code = CodeUtil.getCode();
         int result = userDao.create(user);

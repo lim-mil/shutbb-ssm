@@ -26,8 +26,12 @@
     <import resource="classpath:spring/spring-email.xml"/>
 
     <!--  自己的类  -->
+    <bean class="com.limyel.shutbb.util.ConfigUtil" id="configUtil">
+        <property name="jwtSecret" value="${config.jwtSecret}"/>
+        <property name="md5Salt" value="${config.md5Salt}"/>
+    </bean>
     <bean class="com.limyel.shutbb.service.impl.AuthorizationServiceImpl" id="authorizationService">
-        <property name="secret" value="${config.jwt_secret}"/>
+        <property name="configUtil" ref="configUtil"/>
     </bean>
     <bean class="com.limyel.shutbb.util.RedisUtil" id="redisUtil">
         <property name="redisTemplate" ref="redisTemplate"/>
