@@ -48,7 +48,6 @@ public class Response<T> implements Serializable {
     }
 
     public static <T> Response<T> success(T data) {
-        System.out.println(data);
         return new Response<T>(RETCODE.SUCCESS.getCode(), RETCODE.SUCCESS.getMsg(), data);
     }
 

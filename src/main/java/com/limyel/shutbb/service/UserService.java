@@ -8,4 +8,5 @@ public interface UserService {
     User retrive(User user);
     int update(User user);
     int deleteById(int id);
+    int active(String code);
 }

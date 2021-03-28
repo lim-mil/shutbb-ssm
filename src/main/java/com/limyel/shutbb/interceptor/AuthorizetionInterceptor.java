@@ -29,7 +29,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
         }
 
         String bearer = request.getHeader("Authorization");
-        System.out.println(bearer);
         if (bearer != null) {
             String token = bearer.split(" ")[1];
             User user = authorizationService.parseJwtToken(token);

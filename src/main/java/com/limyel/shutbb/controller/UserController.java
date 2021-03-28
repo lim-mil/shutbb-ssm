@@ -61,7 +61,6 @@ public class UserController {
     @GetMapping(value = "/{id:[0-9]*}")
     @ResponseBody
     public String retriveUserById(@CurrentUser User user, @PathVariable int id, HttpServletRequest request) {
-        System.out.println(user.getUsername());
         return "";
     }
 
