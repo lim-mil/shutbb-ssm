@@ -48,6 +48,16 @@ public class UserController {
         return Response.success(token);
     }
 
+    @GetMapping("/info")
+    @ResponseBody
+    public Response<User> currentUserInfo(@CurrentUser User user) {
+        User userTmp = new User();
+        userTmp.setUsername(user.getUsername());
+        userTmp.setId(user.getId());
+        userTmp.setStatus(user.getStatus());
+        return Response.success(userTmp);
+    }
+
     @GetMapping(value = "/{id:[0-9]*}")
     @ResponseBody
     public String retriveUserById(@CurrentUser User user, @PathVariable int id, HttpServletRequest request) {
