@@ -10,4 +10,5 @@ public interface UserDao {
     int update(User user);
     int deleteById(int id);
     User login(@Param("usernameOrEmail") String usernameOrEmail, @Param("password") String password);
+    User retriveUserByUsername(String username);
 }

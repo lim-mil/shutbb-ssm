@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<String> create(User user, String confirmPassword) {
-        if (!user.getPassword().equals(confirmPassword)) {
+        if (!user.getPassword().equals(confirmPassword) || userDao.retriveUserByUsername(user.getUsername()) != null) {
             return Response.badRequest();
         }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
