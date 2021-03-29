@@ -2,6 +2,7 @@ package com.limyel.shutbb.controller;
 
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
+import com.limyel.shutbb.annotation.JsonItem;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
@@ -25,7 +26,8 @@ public class UserController {
     @IgnoreAuth
     @PostMapping(value = "/register")
     @ResponseBody
-    public Response<String> register(@RequestBody User user, HttpServletRequest request) {
+    public Response<String> register(@RequestBody User user, @JsonItem String confirmPassword, HttpServletRequest request) {
+        System.out.println(confirmPassword);
         userService.create(user);
         String token = authorizationService.generateJwtToken(user);
 
@@ -62,6 +64,4 @@ public class UserController {
     public String retriveUserById(@CurrentUser User user, @PathVariable int id, HttpServletRequest request) {
         return "";
     }
-
-
 }

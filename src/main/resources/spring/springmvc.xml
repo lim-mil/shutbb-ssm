@@ -16,6 +16,7 @@
                 <property name="userDao" ref="userDao"/>
             </bean>
             <bean class="com.limyel.shutbb.resolver.PageSizeResolver"/>
+            <bean class="com.limyel.shutbb.resolver.JsonItemResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

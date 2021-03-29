@@ -21,7 +21,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
             IgnoreAuth ignoreAuth = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);
-            System.out.println(ignoreAuth.toString());
             if (ignoreAuth != null)
                 return true;
         } else {
