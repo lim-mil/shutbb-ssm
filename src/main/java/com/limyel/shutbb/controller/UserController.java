@@ -27,26 +27,16 @@ public class UserController {
     @PostMapping(value = "/register")
     @ResponseBody
     public Response<String> register(@RequestBody User user, @JsonItem String confirmPassword, HttpServletRequest request) {
-        System.out.println(confirmPassword);
-        userService.create(user);
-        String token = authorizationService.generateJwtToken(user);
-
-        return Response.success(token);
+        Response<String> result = userService.create(user, confirmPassword);
+        return result;
     }
 
     @IgnoreAuth
     @PostMapping(value = "/login")
     @ResponseBody
-    public Response<String> login(@RequestBody User user, HttpServletRequest request) {
-        String token = null;
-        user.setPassword(DigestUtils.md5Hex(user.getPassword()));           // md5
-        User userTmp = userService.retrive(user);
-        if (userTmp != null) {
-            token = authorizationService.generateJwtToken(userTmp);
-        } else {
-            return Response.unauthorized();
-        }
-        return Response.success(token);
+    public Response<String> login(@JsonItem String usernameOrEmail, @JsonItem String password, HttpServletRequest request) {
+
+        return userService.login(usernameOrEmail, password);
     }
 
     @GetMapping("/info")

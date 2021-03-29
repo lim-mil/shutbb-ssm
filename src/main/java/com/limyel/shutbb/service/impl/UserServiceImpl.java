@@ -1,13 +1,11 @@
 package com.limyel.shutbb.service.impl;
 
+import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.common.UserStatus;
 import com.limyel.shutbb.dao.UserDao;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.UserService;
-import com.limyel.shutbb.util.CodeUtil;
-import com.limyel.shutbb.util.ConfigUtil;
-import com.limyel.shutbb.util.EmailUtil;
-import com.limyel.shutbb.util.RedisUtil;
+import com.limyel.shutbb.util.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,12 @@ public class UserServiceImpl implements UserService {
     private EmailUtil emailUtil;
     private RedisUtil redisUtil;
     private ConfigUtil configUtil;
+    private AuthorizationUtil authorizationUtil;
+
+    @Autowired
+    public void setAuthorizationUtil(AuthorizationUtil authorizationUtil) {
+        this.authorizationUtil = authorizationUtil;
+    }
 
     @Autowired
     public void setConfigUtil(ConfigUtil configUtil) {
@@ -42,17 +46,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int create(User user) {
+    public Response<String> create(User user, String confirmPassword) {
+        if (!user.getPassword().equals(confirmPassword)) {
+            return Response.badRequest();
+        }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
         user.setStatus(UserStatus.INACTIVED.getCode());
         String code = CodeUtil.getCode();
         int result = userDao.create(user);
+        if (result == 0) {
+            return Response.badRequest();
+        }
+
         while (redisUtil.getRedisTemplate().opsForHash().hasKey("shutbb_active_code", code)) {
             code = CodeUtil.getCode();
         }
         redisUtil.getRedisTemplate().opsForHash().put("shutbb_active_code", code, Integer.toString(user.getId()));
         emailUtil.sendEmail(user.getEmail(), code);
-        return result;
+
+        return Response.success(authorizationUtil.generateJwtToken(user));
+    }
+
+    @Override
+    public Response<String> login(String usernameOrEmail, String password) {
+        password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
+        User user = userDao.login(usernameOrEmail, password);
+        if (user != null)
+            return Response.success(authorizationUtil.generateJwtToken(user));
+        return Response.badRequest();
     }
 
     @Override

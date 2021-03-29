@@ -26,7 +26,6 @@ public class JsonItemResolver implements HandlerMethodArgumentResolver {
         byte[] data = request.getInputStream().readAllBytes();
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> result = mapper.readValue(new String(data, "UTF-8"), Map.class);
-        System.out.println(result);
         return result.get(methodParameter.getParameterName());
     }
 }

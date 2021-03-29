@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
+import com.limyel.shutbb.util.AuthorizationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthorizetionInterceptor implements HandlerInterceptor {
+
+    private AuthorizationUtil authorizationUtil;
+
     @Autowired
-    AuthorizationService authorizationService;
+    public void setAuthorizationUtil(AuthorizationUtil authorizationUtil) {
+        this.authorizationUtil = authorizationUtil;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,7 +36,7 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
         String bearer = request.getHeader("Authorization");
         if (bearer != null) {
             String token = bearer.split(" ")[1];
-            User user = authorizationService.parseJwtToken(token);
+            User user = authorizationUtil.parseJwtToken(token);
             if (user != null) {
                 return true;
             }

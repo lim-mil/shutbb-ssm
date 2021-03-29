@@ -1,9 +1,11 @@
 package com.limyel.shutbb.service;
 
+import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.entity.User;
 
 public interface UserService {
-    int create(User user);
+    Response<String> create(User user, String confirmPassword);
+    Response<String> login(String usernameOrEmail, String password);
     User retriveById(int id);
     User retrive(User user);
     int update(User user);
