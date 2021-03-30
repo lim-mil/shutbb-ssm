@@ -3,7 +3,6 @@ package com.limyel.shutbb.entity;
 public class Section extends BaseModel {
     private String name;
     private boolean isDraft;
-    private int subForumId;
     private int userId;
 
     public boolean isDraft() {
@@ -20,14 +19,6 @@ public class Section extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSubForumId() {
-        return subForumId;
-    }
-
-    public void setSubForumId(int subForumId) {
-        this.subForumId = subForumId;
     }
 
     public int getUserId() {

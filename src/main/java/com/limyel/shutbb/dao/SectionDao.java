@@ -9,5 +9,4 @@ public interface SectionDao {
     Section retriveById(int id);
     int update(Section section);
     int deleteById(int id);
-    List<Section> retriveBySubForum(int subForumId);
 }

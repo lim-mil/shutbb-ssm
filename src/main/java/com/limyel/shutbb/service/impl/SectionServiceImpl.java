@@ -39,9 +39,4 @@ public class SectionServiceImpl implements SectionService {
         return null;
     }
 
-    @Override
-    public Response<List<Section>> retriveBySubForum(int subForumId) {
-        List<Section> result = sectionDao.retriveBySubForum(subForumId);
-        return Response.success(result);
-    }
 }

@@ -2,14 +2,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.SectionDao">
-    <sql id="insertFields"> (name, sub_forum_id, user_id) </sql>
+    <sql id="insertFields"> (name, user_id) </sql>
     <sql id="retriveFields">
         id, created_at, updated_at, name, user_id
     </sql>
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Section">
 <!--        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});-->
-        insert into section (name, sub_forum_id, user_id) values (#{name}, #{subForumId}, #{userId});
+        insert into section (name, user_id) values (#{name}, #{userId});
     </insert>
 
     <select id="retriveById" resultType="com.limyel.shutbb.entity.Section">
@@ -20,7 +20,6 @@
         update section
         <set>
             <if test="name != null">name=#{name},</if>
-            <if test="subForumId != null">sub_forum_id=#{subForumId},</if>
             <if test="userId != null">user_id=#{userId},</if>
         </set>
         where id=#{id};
@@ -29,9 +28,5 @@
     <update id="deleteById">
         update section set is_delete=true where id=#{id};
     </update>
-
-    <select id="retriveBySubForum" resultType="com.limyel.shutbb.entity.Section">
-        select <include refid="retriveFields"/> from section where sub_forum_id=#{subForumId};
-    </select>
 
 </mapper>

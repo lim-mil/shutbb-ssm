@@ -10,5 +10,4 @@ public interface SectionService {
     Response<Section> retriveById(int id);
     Response<Integer> update(Section section);
     Response<Integer> deleteById(int id);
-    Response<List<Section>> retriveBySubForum(int subForumId);
 }

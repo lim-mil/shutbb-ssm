@@ -29,10 +29,4 @@ public class SectionController {
         return serviceResponse;
     }
 
-    @GetMapping("/subForum/{subForumId}")
-    @ResponseBody
-    public Response<List<Section>> retriveBySubForum(@PathVariable("subForumId") int subForumId, HttpServletResponse response) {
-        return sectionService.retriveBySubForum(subForumId);
-    }
-
 }
