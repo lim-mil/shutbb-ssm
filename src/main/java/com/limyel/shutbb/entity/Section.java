@@ -4,17 +4,8 @@ import java.util.List;
 
 public class Section extends BaseModel {
     private String name;
-    private boolean isDraft;
     private User user;
     private List<Topic> topics;
-
-    public boolean isDraft() {
-        return isDraft;
-    }
-
-    public void setDraft(boolean draft) {
-        isDraft = draft;
-    }
 
     public String getName() {
         return name;

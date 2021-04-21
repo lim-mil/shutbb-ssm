@@ -17,12 +17,19 @@ public class TestPostDao {
     PostDao postDao;
 
     @Test
+    public void testRetriveById() {
+        Post post = postDao.retriveById(2);
+        System.out.println(post.getUser().getUsername());
+        System.out.println(post.getTopic().getTitle());
+    }
+
+    @Test
     public void testRetriveByTopic() {
         List<Post> result = postDao.retriveByTopic(1);
         for (Post post: result) {
             System.out.println(post.getContent());
 
-            Assert.assertEquals(1, post.getTopicId());
+            Assert.assertEquals(1, post.getTopic().getId());
         }
     }
 

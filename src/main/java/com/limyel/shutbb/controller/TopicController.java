@@ -23,7 +23,7 @@ public class TopicController {
     @PostMapping("")
     @ResponseBody
     public Response<Integer> create(@RequestBody Topic topic, @CurrentUser User user, HttpServletRequest request, HttpServletResponse response) {
-        topic.setUserId(user.getId());
+        topic.setUser(user);
         Response serviceResponse = topicService.create(topic);
 
         response.setStatus(serviceResponse.getCode());

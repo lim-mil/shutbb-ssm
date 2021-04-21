@@ -2,18 +2,52 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.TopicDao">
-    <sql id="insertFields">(title, content, is_draft, section_id, user_id)</sql>
+    <sql id="insertFields">(title, content, draft, section_id, user_id)</sql>
     <sql id="retriveFields">
         id, created_at, updated_at, title, content, user_id
     </sql>
+    <sql id="allFields">
+        id, created_at, updated_at, deleted, title, content, user_id, section_id, draft
+    </sql>
 
-    <insert id="create" parameterType="com.limyel.shutbb.entity.Topic">
-<!--        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, is_draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});-->
-        insert into topic (title, content, is_draft, section_id, user_id) values (#{title}, #{title}, #{isDraft}, #{sectionId}, #{userId});
+    <resultMap id="topic" type="topic">
+        <id property="id" column="id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="draft" column="draft"/>
+        <association property="user" column="user_id" select="com.limyel.shutbb.dao.UserDao.retriveById">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="status" column="status"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+        <association property="section" column="section_id" select="com.limyel.shutbb.dao.SectionDao.retriveById">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+        <collection property="posts" column="id" select="com.limyel.shutbb.dao.PostDao.retriveByTopic">
+            <id property="id" column="id"/>
+            <result property="createdAt" column="created_at"/>
+            <result property="content" column="content"/>
+            <association property="user" column="user_id">
+                <id property="id" column="id"/>
+                <result property="username" column="username"/>
+                <result property="status" column="status"/>
+                <result property="avatar" column="avatar"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <insert id="create" parameterType="topic">
+<!--        insert into topic <include refid="insertFields"/> values (title=#{title}, content=#{title}, draft=#{isDraft}, section_id=#{sectionId}, user_id=#{userId});-->
+        insert into topic (title, content, draft, section_id, user_id) values (#{title}, #{title}, #{isDraft}, #{sectionId}, #{userId})
     </insert>
     
-    <select id="retriveById" resultType="com.limyel.shutbb.entity.Topic">
-        select * from topic where id=#{id};
+    <select id="retriveById" resultMap="topic">
+        select <include refid="allFields"/> from topic where id=#{id}
     </select>
 
     <update id="update" parameterType="com.limyel.shutbb.entity.Topic">
@@ -21,7 +55,7 @@
         <set>
             <if test="title != null">title=#{title},</if>
             <if test="content != null">content=#{content},</if>
-            <if test="content != null">is_draft=#{idDraft},</if>
+            <if test="content != null">draft=#{idDraft},</if>
             <if test="sectionId != null">section_id=#{sectionId},</if>
             <if test="userId != null">user_id=#{userId},</if>
         </set>
@@ -29,18 +63,18 @@
     </update>
 
     <update id="deleteById">
-        update topic set is_delete=true where id=#{id} and user_id=#{user.id};
+        update topic set deleted=true where id=#{id} and user_id=#{user.id};
     </update>
 
     <select id="retriveBySection" resultType="com.limyel.shutbb.entity.Topic">
-        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=false and section_id=#{sectionId};
+        select <include refid="retriveFields"/> from topic where deleted=false and draft=false and section_id=#{sectionId};
     </select>
 
     <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Topic">
-        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=false and user_id=#{userId};
+        select <include refid="retriveFields"/> from topic where deleted=false and draft=false and user_id=#{userId};
     </select>
 
     <select id="retriveDraft" resultType="com.limyel.shutbb.entity.Topic">
-        select <include refid="retriveFields"/> from topic where is_delete=false and is_draft=true and user_id=#{userId};
+        select <include refid="retriveFields"/> from topic where deleted=false and draft=true and user_id=#{userId};
     </select>
 </mapper>

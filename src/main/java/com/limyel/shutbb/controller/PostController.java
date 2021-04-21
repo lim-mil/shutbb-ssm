@@ -80,7 +80,7 @@ public class PostController {
     @PostMapping("")
     @ResponseBody
     public Response<Integer> create(@RequestBody Post post, @CurrentUser User user, HttpServletResponse response) {
-        post.setUserId(user.getId());
+        post.setUser(user);
         Response<Integer> serviceResponse = postService.create(post);
         response.setStatus(serviceResponse.getCode());
         return serviceResponse;

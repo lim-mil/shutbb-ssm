@@ -9,6 +9,7 @@ public class User extends BaseModel {
     private String password;
     private String signature;
     private int status;
+    private String avatar;
     private List<Post> posts;
     private List<Topic> topics;
     private List<Section> sections;
@@ -85,5 +86,13 @@ public class User extends BaseModel {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

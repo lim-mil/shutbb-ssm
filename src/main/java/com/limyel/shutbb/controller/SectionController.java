@@ -22,7 +22,7 @@ public class SectionController {
     @PostMapping("")
     @ResponseBody
     public Response<Integer> create(@RequestBody Section section, @CurrentUser User user, HttpServletRequest request, HttpServletResponse response) {
-        section.setUserId(user.getId());
+        section.setUser(user);
         Response<Integer> serviceResponse = sectionService.create(section);
 
         response.setStatus(serviceResponse.getCode());
