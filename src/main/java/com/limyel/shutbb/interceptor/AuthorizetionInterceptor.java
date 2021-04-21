@@ -1,13 +1,9 @@
 package com.limyel.shutbb.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.entity.User;
-import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.util.AuthorizationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,8 +25,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
             IgnoreAuth ignoreAuth = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);
             if (ignoreAuth != null)
                 return true;
-        } else {
-            return true;
         }
 
         String bearer = request.getHeader("Authorization");

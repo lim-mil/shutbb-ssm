@@ -231,6 +231,14 @@
       <version>1.4.4</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.6</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
