@@ -5,17 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post extends BaseModel {
     private String content;
-    private boolean isDraft;
-    private int userId;
-    private int topicId;
-
-    public boolean isDraft() {
-        return isDraft;
-    }
-
-    public void setDraft(boolean draft) {
-        isDraft = draft;
-    }
+    private boolean draft;
+    private User user;
+    private Topic topic;
 
     public String getContent() {
         return content;
@@ -25,19 +17,27 @@ public class Post extends BaseModel {
         this.content = content;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getTopicId() {
-        return topicId;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setTopicId(int topicId) {
-        this.topicId = topicId;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 }

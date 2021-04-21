@@ -6,7 +6,7 @@ public class BaseModel {
     private int id;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private boolean isDelete;
+    private boolean deleted;
 
     public int getId() {
         return id;
@@ -32,12 +32,11 @@ public class BaseModel {
         this.updatedAt = updatedAt;
     }
 
-    public boolean isDelete() {
-        return isDelete;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        isDelete = delete;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
-
 }

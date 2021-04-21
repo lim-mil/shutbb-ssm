@@ -1,19 +1,14 @@
 package com.limyel.shutbb.entity;
 
+import java.util.List;
+
 public class Topic extends BaseModel {
     private String title;
     private String content;
-    private boolean isDraft;
-    private int sectionId;
-    private int userId;
-
-    public boolean isDraft() {
-        return isDraft;
-    }
-
-    public void setDraft(boolean draft) {
-        isDraft = draft;
-    }
+    private boolean draft;
+    private Section section;
+    private User user;
+    private List<Post> posts;
 
     public String getTitle() {
         return title;
@@ -27,23 +22,39 @@ public class Topic extends BaseModel {
         return content;
     }
 
-    public int getSectionId() {
-        return sectionId;
-    }
-
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
-    public int getUserId() {
-        return userId;
+    public Section getSection() {
+        return section;
     }
 
-    public void setUserId(int authorId) {
-        this.userId = authorId;
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
