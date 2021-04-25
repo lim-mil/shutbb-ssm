@@ -1,6 +1,6 @@
 package com.limyel.shutbb.common;
 
-public enum UserStatus {
+public enum USERSTATUS {
     NORMAL(0, "正常"),
     INACTIVED(1, "未激活"),
     ;
@@ -8,7 +8,7 @@ public enum UserStatus {
     private int code;
     private String msg;
 
-    UserStatus(int code, String msg) {
+    USERSTATUS(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }

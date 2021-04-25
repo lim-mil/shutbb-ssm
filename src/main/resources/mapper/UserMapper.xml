@@ -21,36 +21,8 @@
         <result property="avatar" column="avatar"/>
     </resultMap>
 
-    <insert id="create" parameterType="com.limyel.shutbb.entity.User" keyProperty="id">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                username,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="signature != null">
-                signature,
-            </if>
-        </trim>
-        <trim prefix=" values (" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                #{username},
-            </if>
-            <if test="email != null">
-                #{email},
-            </if>
-            <if test="password != null">
-                #{password},
-            </if>
-            <if test="signature != null">
-                #{signature},
-            </if>
-        </trim>
+    <insert id="create" parameterType="user" keyProperty="id">
+        insert into user (username, email, password) values (#{username}, #{email}, #{password})
     </insert>
     
     <select id="retriveById" resultMap="user">
@@ -81,8 +53,8 @@
         update user set deleted=true where id=#{id};
     </update>
 
-    <select id="login" resultType="com.limyel.shutbb.entity.User">
-        select <include refid="userInfo"/> from user where username=#{usernameOrEmail} or email=#{usernameOrEmail} and password=#{password};
+    <select id="login" resultMap="user">
+        select <include refid="allFields"/> from user where (username=#{usernameOrEmail} or email=#{usernameOrEmail}) and password=#{password};
     </select>
 
     <select id="retriveUserByUsername" resultType="com.limyel.shutbb.entity.User">

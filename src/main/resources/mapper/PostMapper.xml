@@ -43,7 +43,7 @@
     </select>
 
     <select id="retriveByTopic" resultMap="post">
-        select <include refid="allFields"/> from post where deleted=false and draft=false and topic_id=#{id}
+        select <include refid="allFields"/> from post where deleted=false and draft=false and topic_id=#{id} order by created
     </select>
 
     <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Post">
@@ -52,6 +52,10 @@
 
     <select id="retriveDraft" resultType="com.limyel.shutbb.entity.Post">
         select <include refid="retriveFields"/> from post where deleted=false and draft=true and user_id=#{userId}
+    </select>
+
+    <select id="retriveLatest" resultMap="post">
+        select <include refid="allFields"/> from post where topic_id=#{topicId}
     </select>
 
     <update id="update" parameterType="post">
@@ -66,4 +70,7 @@
         update post set deleted=true where id=#{id} and user_id=#{user.id}
     </update>
 
+    <select id="countByTopic" resultType="integer">
+        select count(id) from post where topic_id=#{topicId}
+    </select>
 </mapper>

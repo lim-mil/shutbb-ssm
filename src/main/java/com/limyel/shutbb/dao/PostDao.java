@@ -12,6 +12,8 @@ public interface PostDao {
     List<Post> retriveByTopic(int topicId);
     List<Post> retriveByUser(int userId);
     List<Post> retriveDraft(int userId);
+    Post retriveLatest(int topicId);
     int update(Post post);
     int deleteById(@Param("id") int id, @Param("user") User user);
+    int countByTopic(int topicId);
 }

@@ -1,7 +1,7 @@
 package com.limyel.shutbb.service.impl;
 
 import com.limyel.shutbb.common.Response;
-import com.limyel.shutbb.common.UserStatus;
+import com.limyel.shutbb.common.USERSTATUS;
 import com.limyel.shutbb.dao.UserDao;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.UserService;
@@ -9,8 +9,6 @@ import com.limyel.shutbb.util.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.ObjectInputFilter;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
             return Response.badRequest();
         }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
-        user.setStatus(UserStatus.INACTIVED.getCode());
+        user.setStatus(USERSTATUS.INACTIVED.getCode());
         String code = CodeUtil.getCode();
         int result = userDao.create(user);
         if (result == 0) {
@@ -69,11 +67,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<String> login(String usernameOrEmail, String password) {
-        password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
+//        password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
         User user = userDao.login(usernameOrEmail, password);
-        if (user != null)
+        if (user != null) {
+            System.out.println(password);
             return Response.success(authorizationUtil.generateJwtToken(user));
-        return Response.badRequest();
+        }
+        return Response.badRequestMsg("用户名、邮箱或密码错误");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
         }
         int id = Integer.parseInt((String) value);
         User user = userDao.retriveById(id);
-        user.setStatus(UserStatus.NORMAL.getCode());
+        user.setStatus(USERSTATUS.NORMAL.getCode());
         redisUtil.getRedisTemplate().opsForHash().delete("shutbb_active_code", code);
         userDao.update(user);
         return 1;

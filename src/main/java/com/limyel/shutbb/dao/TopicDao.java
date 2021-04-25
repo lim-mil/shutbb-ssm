@@ -14,4 +14,5 @@ public interface TopicDao {
     List<Topic> retriveDraft(int userId);
     int update(Topic topic);
     int deleteById(@Param("id") int id, @Param("user") User user);
+    int countBySection(int sectionId);
 }

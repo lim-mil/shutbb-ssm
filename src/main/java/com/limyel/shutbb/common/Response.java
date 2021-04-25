@@ -74,4 +74,8 @@ public class Response<T> implements Serializable {
     public static <T> Response<T> badRequest(T data) {
         return new Response<T>(RETCODE.BADREQUEST.getCode(), RETCODE.BADREQUEST.getMsg(), data);
     }
+
+    public static <T> Response<T> badRequestMsg(String msg) {
+        return new Response<T>(RETCODE.BADREQUEST.getCode(), msg);
+    }
 }

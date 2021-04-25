@@ -31,11 +31,15 @@
 
     <insert id="create" parameterType="com.limyel.shutbb.entity.Section">
 <!--        insert into section <include refid="insertFields"/> values (#{name}, #{subForumId}, #{userId});-->
-        insert into section (name, user_id) values (#{name}, #{userId});
+        insert into section (name, user_id) values (#{name}, #{userId})
     </insert>
 
     <select id="retriveById" resultMap="section">
-        select <include refid="allFields"/> from section where id=#{id};
+        select <include refid="allFields"/> from section where id=#{id}
+    </select>
+
+    <select id="retriveByUser" resultMap="section">
+        select <include refid="allFields"/> from section where user_id=#{id}
     </select>
 
     <update id="update" parameterType="com.limyel.shutbb.entity.Section">

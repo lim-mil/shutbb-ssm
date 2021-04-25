@@ -26,15 +26,16 @@ public class UserController {
     @IgnoreAuth
     @PostMapping(value = "/register")
     @ResponseBody
-    public Response<String> register(@RequestBody User user, @JsonItem String confirmPassword, HttpServletRequest request) {
-        return userService.create(user, confirmPassword);
+    public Response<String> register(@RequestBody User user, @JsonItem String checkPassword, HttpServletRequest request) {
+        return userService.create(user, checkPassword);
     }
 
     @IgnoreAuth
     @PostMapping(value = "/login")
     @ResponseBody
     public Response<String> login(@JsonItem String usernameOrEmail, @JsonItem String password, HttpServletRequest request) {
-
+        System.out.println(usernameOrEmail);
+        System.out.println(password);
         return userService.login(usernameOrEmail, password);
     }
 
