@@ -8,6 +8,8 @@ public interface SectionDao {
     int create(Section section);
     Section retriveById(int id);
     List<Section> retriveByUser(int id);
+    Section retriveDefault();
+    List<Section> retriveDefaultByUser(int userId);
     int update(Section section);
     int deleteById(int id);
 }

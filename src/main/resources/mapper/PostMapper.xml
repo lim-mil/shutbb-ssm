@@ -43,7 +43,7 @@
     </select>
 
     <select id="retriveByTopic" resultMap="post">
-        select <include refid="allFields"/> from post where deleted=false and draft=false and topic_id=#{id} order by created
+        select <include refid="allFields"/> from post where deleted=false and draft=false and topic_id=#{id} order by created_at
     </select>
 
     <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Post">

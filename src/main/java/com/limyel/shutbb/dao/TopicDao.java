@@ -10,6 +10,7 @@ public interface TopicDao {
     int create(Topic topic);
     Topic retriveById(int id);
     List<Topic> retriveBySection(int SectionId);
+    List<Topic> retriveBySectionName(String sectionName);
     List<Topic> retriveByUser(int userId);
     List<Topic> retriveDraft(int userId);
     int update(Topic topic);

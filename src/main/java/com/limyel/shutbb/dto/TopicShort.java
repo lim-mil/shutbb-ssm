@@ -3,6 +3,7 @@ package com.limyel.shutbb.dto;
 import com.limyel.shutbb.entity.Post;
 import com.limyel.shutbb.entity.Topic;
 
+// 在 section 页面中展示的 topic 内容
 public class TopicShort {
     private Topic topic;
     private int postNum;
@@ -12,6 +13,9 @@ public class TopicShort {
         this.topic = topic;
         this.postNum = postNum;
         this.latestPost = latestPost;
+    }
+
+    public TopicShort() {
     }
 
     public Topic getTopic() {

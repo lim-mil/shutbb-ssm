@@ -1,5 +1,6 @@
 package com.limyel.shutbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -7,6 +8,7 @@ public class Post extends BaseModel {
     private String content;
     private boolean draft;
     private User user;
+    @JsonBackReference
     private Topic topic;
 
     public String getContent() {

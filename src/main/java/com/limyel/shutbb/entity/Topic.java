@@ -1,5 +1,7 @@
 package com.limyel.shutbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 public class Topic extends BaseModel {
@@ -8,6 +10,7 @@ public class Topic extends BaseModel {
     private boolean draft;
     private Section section;
     private User user;
+    @JsonManagedReference
     private List<Post> posts;
 
     public String getTitle() {

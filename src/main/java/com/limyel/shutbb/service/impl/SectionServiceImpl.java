@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -43,8 +44,8 @@ public class SectionServiceImpl implements SectionService {
         return null;
     }
 
-    @Override
-    public Response<List<SectionShort>> retriveByUser(User user) {
+//    @Override
+    public Response<List<Section>> retrive(User user) {
         List<SectionShort> result = new ArrayList<>();
         List<Section> sections = sectionDao.retriveByUser(user.getId());
 
@@ -65,13 +66,18 @@ public class SectionServiceImpl implements SectionService {
             result.add(sectionShort);
         }
 
-        return Response.success(result);
+        return null;
     }
 
     @Override
-    public Response<List<SectionShort>> retriveDefault() {
-
-        return null;
+    public Response<List<Section>> retriveDefault(User user) {
+        List<Section> result = new LinkedList<>();
+        result.add(sectionDao.retriveDefault());
+        if (user != null) {
+            // 登录，获取用户关注的版块。如果未登录，获取默认版块——最新
+            result.addAll(sectionDao.retriveDefaultByUser(user.getId()));
+        }
+        return Response.success(result);
     }
 
 

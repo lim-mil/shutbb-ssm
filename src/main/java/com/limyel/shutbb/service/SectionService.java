@@ -10,8 +10,7 @@ import java.util.List;
 public interface SectionService {
     Response<Integer> create(Section section);
     Response<Section> retriveById(int id);
-    Response<List<SectionShort>> retriveByUser(User user);
-    Response<List<SectionShort>> retriveDefault();
+    Response<List<Section>> retriveDefault(User user);
     Response<Integer> update(Section section);
     Response<Integer> deleteById(int id);
 }

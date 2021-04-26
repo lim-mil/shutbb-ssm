@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response<String> login(String usernameOrEmail, String password) {
-//        password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
+        password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
         User user = userDao.login(usernameOrEmail, password);
         if (user != null) {
             System.out.println(password);

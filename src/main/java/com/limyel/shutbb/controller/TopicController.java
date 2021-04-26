@@ -3,6 +3,7 @@ package com.limyel.shutbb.controller;
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.common.Response;
+import com.limyel.shutbb.dto.TopicShort;
 import com.limyel.shutbb.entity.Topic;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.TopicService;
@@ -30,11 +31,18 @@ public class TopicController {
         return serviceResponse;
     }
 
-    @GetMapping("/section/{sectionId}")
+//    @GetMapping("/section/{sectionId}")
+//    @ResponseBody
+//    @IgnoreAuth
+//    public Response<List<Topic>> retriveBySection(@PathVariable("sectionId") int sectionId, HttpServletResponse response) {
+//        return topicService.retriveBySection(sectionId);
+//    }
+
+    @GetMapping("/section/{sectionName}")
     @ResponseBody
     @IgnoreAuth
-    public Response<List<Topic>> retriveBySection(@PathVariable("sectionId") int sectionId, HttpServletResponse response) {
-        return topicService.retriveBySection(sectionId);
+    public Response<List<TopicShort>> retriveBySectionName(@PathVariable("sectionName") String sectionName) {
+        return topicService.retriveBySectionName(sectionName);
     }
 
     @GetMapping("/user")

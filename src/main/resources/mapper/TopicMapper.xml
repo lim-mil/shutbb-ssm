@@ -51,7 +51,11 @@
     </select>
 
     <select id="retriveBySection" resultType="com.limyel.shutbb.entity.Topic">
-        select <include refid="retriveFields"/> from topic where deleted=false and draft=false and section_id=#{sectionId} order by created desc
+        select <include refid="retriveFields"/> from topic where deleted=false and draft=false and section_id=#{sectionId} order by created_at desc
+    </select>
+
+    <select id="retriveBySectionName" resultMap="topic">
+        select id, created_at, title, user_id from topic where section_id in (select id from section where name=#{sectionName}) order by created_at desc
     </select>
 
     <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Topic">
@@ -78,7 +82,7 @@
         update topic set deleted=true where id=#{id} and user_id=#{user.id};
     </update>
 
-    <select id="countBySection">
+    <select id="countBySection" resultType="java.lang.Integer">
         select count(id) from topic where section_id=#{sectionId}
     </select>
 </mapper>

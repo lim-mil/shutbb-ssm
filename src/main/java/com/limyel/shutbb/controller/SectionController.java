@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -31,15 +32,13 @@ public class SectionController {
     }
 
     public Response<List<SectionShort>> retriveByUser(@CurrentUser User user) {
-        Response<List<SectionShort>> response = sectionService.retriveByUser(user);
+        Response<List<SectionShort>> response = null;
         return response;
     }
-
-    @GetMapping("/default")
+    
+    @GetMapping("")
     @ResponseBody
-    public Response<List<SectionShort>> retriveDefault() {
-        Response<List<SectionShort>> response = sectionService.retriveDefault();
-
-        return null;
+    public Response<List<Section>> retrive(@CurrentUser User user) {
+        return sectionService.retriveDefault(user);
     }
 }
