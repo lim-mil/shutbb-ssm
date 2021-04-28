@@ -7,10 +7,10 @@ import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.service.UserService;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,24 +34,28 @@ public class UserController {
     @PostMapping(value = "/login")
     @ResponseBody
     public Response<String> login(@JsonItem String usernameOrEmail, @JsonItem String password, HttpServletRequest request) {
-        System.out.println(usernameOrEmail);
-        System.out.println(password);
         return userService.login(usernameOrEmail, password);
     }
 
     @GetMapping("/info")
     @ResponseBody
     public Response<User> currentUserInfo(@CurrentUser User user) {
-        User userTmp = new User();
-        userTmp.setUsername(user.getUsername());
-        userTmp.setId(user.getId());
-        userTmp.setStatus(user.getStatus());
-        return Response.success(userTmp);
+        if (user == null) {
+            return Response.unauthorizedMsg("登录已过期，请重新登录");
+        }
+        User result = userService.retriveById(user.getId());
+        return Response.success(result);
     }
 
     @GetMapping(value = "/{id:[0-9]*}")
     @ResponseBody
     public String retriveUserById(@CurrentUser User user, @PathVariable int id, HttpServletRequest request) {
         return "";
+    }
+
+    @PostMapping("/avatar")
+    @ResponseBody
+    public Response<String> uploadAvatar(@CurrentUser User user, @RequestParam("avatar") MultipartFile file, HttpServletRequest request) {
+        return userService.uploadAvatar(user, file, request);
     }
 }

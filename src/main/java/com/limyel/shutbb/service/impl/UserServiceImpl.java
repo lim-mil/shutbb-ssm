@@ -9,6 +9,11 @@ import com.limyel.shutbb.util.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -109,4 +114,43 @@ public class UserServiceImpl implements UserService {
         userDao.update(user);
         return 1;
     }
+
+    @Override
+    public Response<String> uploadAvatar(User user, MultipartFile file, HttpServletRequest request) {
+        // 上传到 webapps 目录下，防止重新部署丢失文件
+        File localDir = new File(request.getServletContext().getRealPath("/"));
+        String realPath = localDir.getParent() + "/upload/shutbb/avatars/";
+        String filename = file.getOriginalFilename();
+
+        // 用用户名替换文件名
+        StringBuilder newFileName = new StringBuilder();
+        newFileName.append(user.getUsername()).append(".");
+        if (filename == null || filename.split("\\.").length != 2)
+            return Response.badRequestMsg("上传失败");
+        newFileName.append(filename.split("\\.")[1]);
+
+        File targetFile = new File(realPath + newFileName.toString());
+
+        if (!targetFile.exists()) {
+            // 第一次上传头像
+            StringBuffer url = request.getRequestURL();
+            String uri = request.getRequestURI();
+            String avatarURL = url.replace(url.indexOf(uri), url.length(), "/upload/shutbb/avatars/"+newFileName.toString()).toString();
+            user.setAvatar(avatarURL);
+            userDao.update(user);
+            targetFile.mkdirs();
+        }
+
+        // 上传
+        try {
+            file.transferTo(targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Response.badRequestMsg("上传失败");
+        }
+
+        return Response.successMsg("上传成功");
+    }
+
+
 }

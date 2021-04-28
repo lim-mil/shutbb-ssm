@@ -26,7 +26,7 @@
     </insert>
     
     <select id="retriveById" resultMap="user">
-        select <include refid="allFields"/> from user where id=#{id};
+        select id, created_at, username, avatar from user where id=#{id};
     </select>
 
     <select id="retrive" resultType="com.limyel.shutbb.entity.User" parameterType="com.limyel.shutbb.entity.User">
@@ -41,10 +41,10 @@
     <update id="update" parameterType="com.limyel.shutbb.entity.User">
         update user
         <set>
-            <if test="username != null">username=#{username},</if>
-            <if test="email != null">email=#{email},</if>
             <if test="signature != null">signature=#{signature},</if>
             <if test="status != null">status=#{status},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="avatar != null">avatar=#{avatar}</if>
         </set>
         where id=#{id};
     </update>

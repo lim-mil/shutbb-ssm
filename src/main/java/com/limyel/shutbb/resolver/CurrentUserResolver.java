@@ -1,5 +1,6 @@
 package com.limyel.shutbb.resolver;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.dao.UserDao;
 import com.limyel.shutbb.entity.User;
@@ -31,8 +32,14 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String token = nativeWebRequest.getHeader("Authorization").split(" ")[1];
+        String authorizationHeader = nativeWebRequest.getHeader("Authorization");
+        if (authorizationHeader == null) {
+            return null;
+        }
+        String token = authorizationHeader.split(" ")[1];
         User user = authorizationUtil.parseJwtToken(token);
-        return userDao.retriveById(user.getId());
+        if (user != null)
+            user = userDao.retriveById(user.getId());
+        return user;
     }
 }

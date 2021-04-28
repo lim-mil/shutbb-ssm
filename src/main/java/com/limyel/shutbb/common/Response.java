@@ -67,6 +67,10 @@ public class Response<T> implements Serializable {
         return new Response<T>(RETCODE.UNAUTHORIZED.getCode(), RETCODE.UNAUTHORIZED.getMsg(), data);
     }
 
+    public static <T> Response<T> unauthorizedMsg(String msg) {
+        return new Response<T>(RETCODE.UNAUTHORIZED.getCode(), msg);
+    }
+
     public static <T> Response<T> badRequest() {
         return new Response<T>(RETCODE.BADREQUEST.getCode(), RETCODE.BADREQUEST.getMsg());
     }
