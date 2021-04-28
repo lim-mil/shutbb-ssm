@@ -29,17 +29,17 @@ public class AuthorizationUtil {
                 .sign(algorithm);
     }
 
-    public User parseJwtToken(String token) {
+    public User parseJwtToken(String token) throws TokenExpiredException {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(configUtil.getJwtSecret())).build();
+        User user = null;
         try {
             DecodedJWT jwt = verifier.verify(token);
-            User user = new User();
+            user = new User();
             user.setUsername(jwt.getClaim("username").asString());
             user.setId(jwt.getClaim("id").asInt());
-            return user;
         } catch (TokenExpiredException e) {
-            e.printStackTrace();
-            return null;
+//            e.printStackTrace();
         }
+        return user;
     }
 }

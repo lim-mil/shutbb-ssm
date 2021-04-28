@@ -1,6 +1,7 @@
 package com.limyel.shutbb.controller;
 
 import com.limyel.shutbb.annotation.CurrentUser;
+import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.dto.SectionShort;
 import com.limyel.shutbb.entity.Section;
@@ -38,6 +39,7 @@ public class SectionController {
     
     @GetMapping("")
     @ResponseBody
+    @IgnoreAuth
     public Response<List<Section>> retrive(@CurrentUser User user) {
         return sectionService.retriveDefault(user);
     }

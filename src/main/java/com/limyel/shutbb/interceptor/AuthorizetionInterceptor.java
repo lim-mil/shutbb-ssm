@@ -1,5 +1,6 @@
 package com.limyel.shutbb.interceptor;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.util.AuthorizationUtil;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
 public class AuthorizetionInterceptor implements HandlerInterceptor {
 
@@ -30,9 +32,14 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
         String bearer = request.getHeader("Authorization");
         if (bearer != null) {
             String token = bearer.split(" ")[1];
-            User user = authorizationUtil.parseJwtToken(token);
+            User user = null;
+            user = authorizationUtil.parseJwtToken(token);
             if (user != null) {
                 return true;
+            } else {
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter out = response.getWriter();
+                out.println("登录过期，请重新登录");
             }
         }
 
