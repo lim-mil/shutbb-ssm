@@ -1,7 +1,10 @@
 package com.limyel.shutbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends BaseModel {
 
     private String username;
