@@ -38,8 +38,12 @@
         select <include refid="allFields"/> from section where id=#{id}
     </select>
 
-    <select id="retriveByUser" resultMap="section">
-        select <include refid="allFields"/> from section where user_id=#{id}
+    <select id="retriveByUser" resultType="section">
+        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId})
+    </select>
+
+    <select id="retriveOtherByUser" resultType="section">
+        select id, name from section where id not in (select section_id from users_sections where users_sections.user_id=#{userId})
     </select>
 
     <select id="retriveDefault" resultType="section">
@@ -48,6 +52,10 @@
 
     <select id="retriveDefaultByUser" resultType="section">
         select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId})
+    </select>
+
+    <select id="retriveAll" resultType="section">
+        select id, name from section
     </select>
 
     <update id="update" parameterType="com.limyel.shutbb.entity.Section">

@@ -10,7 +10,7 @@ public class CORSInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
         response.setHeader("Access-Control-Max-Age", "4200");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE,AUTHORIZATION");
         response.setHeader("Access-Control-Allow-Credentials", "true");         // TODO: 2021/4/26 跨域请求不许带cookie！改 

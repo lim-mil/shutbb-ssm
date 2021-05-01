@@ -6,6 +6,7 @@ import com.limyel.shutbb.dao.SectionDao;
 import com.limyel.shutbb.dao.TopicDao;
 import com.limyel.shutbb.dto.SectionShort;
 import com.limyel.shutbb.dto.TopicShort;
+import com.limyel.shutbb.dto.UserSection;
 import com.limyel.shutbb.entity.Post;
 import com.limyel.shutbb.entity.Section;
 import com.limyel.shutbb.entity.Topic;
@@ -78,6 +79,20 @@ public class SectionServiceImpl implements SectionService {
             result.addAll(sectionDao.retriveDefaultByUser(user.getId()));
         }
         return Response.success(result);
+    }
+
+    @Override
+    public Response<UserSection> retriveByUser(User user) {
+        List<Section> focusSections = sectionDao.retriveByUser(user.getId());
+        List<Section> otherSections = sectionDao.retriveOtherByUser(user.getId());
+
+        return Response.success(new UserSection(focusSections, otherSections));
+    }
+
+    @Override
+    public Response<List<Section>> retriveAll() {
+        List<Section> sections = sectionDao.retriveAll();
+        return Response.success(sections);
     }
 
 
