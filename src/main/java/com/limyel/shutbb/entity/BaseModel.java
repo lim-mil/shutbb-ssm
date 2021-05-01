@@ -1,11 +1,14 @@
 package com.limyel.shutbb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 public class BaseModel {
     private int id;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    @JsonIgnore
     private boolean deleted;
 
     public int getId() {
