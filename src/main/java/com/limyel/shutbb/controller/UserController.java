@@ -4,6 +4,7 @@ import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.annotation.JsonItem;
 import com.limyel.shutbb.common.Response;
+import com.limyel.shutbb.dao.UsersSectionsDao;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.service.UserService;
@@ -18,10 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/users")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    AuthorizationService authorizationService;
+    private AuthorizationService authorizationService;
+
+    private UsersSectionsDao usersSectionsDao;
+
+    @Autowired
+    public void setUsersSectionsDao(UsersSectionsDao usersSectionsDao) {
+        this.usersSectionsDao = usersSectionsDao;
+    }
 
     @IgnoreAuth
     @PostMapping(value = "/register")
@@ -57,5 +65,12 @@ public class UserController {
     @ResponseBody
     public Response<String> uploadAvatar(@CurrentUser User user, @RequestParam("avatar") MultipartFile file, HttpServletRequest request) {
         return userService.uploadAvatar(user, file, request);
+    }
+
+    @PostMapping("/sections/{sectionName}")
+    @ResponseBody
+    public Response focusSection(@PathVariable("sectionName") String sectionName, @CurrentUser User user) {
+
+        return Response.success();
     }
 }
