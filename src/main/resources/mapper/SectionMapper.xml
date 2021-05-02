@@ -51,7 +51,7 @@
     </select>
 
     <select id="retriveDefaultByUser" resultType="section">
-        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId} and users_sectins.deleted=false)
+        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId} and users_sections.deleted=false)
     </select>
 
     <select id="retriveAll" resultType="section">
