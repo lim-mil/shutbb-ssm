@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Post extends BaseModel {
     private String content;
     private boolean draft;
+    private int floor;
+    private Post target;
     private User user;
     @JsonBackReference
     private Topic topic;
@@ -41,5 +43,21 @@ public class Post extends BaseModel {
 
     public void setDraft(boolean draft) {
         this.draft = draft;
+    }
+
+    public Post getTarget() {
+        return target;
+    }
+
+    public void setTarget(Post target) {
+        this.target = target;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
     }
 }

@@ -1,6 +1,7 @@
 package com.limyel.shutbb.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.dao.PostDao;
 import com.limyel.shutbb.entity.Post;
@@ -23,10 +24,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response<Integer> create(Post post) {
         int result = postDao.create(post);
+        System.out.println(result);
         if (result == 0) {
             return Response.badRequest(result);
         }
-        return Response.success(result);
+        return Response.success("回复成功", post.getId());
     }
 
     @Override
@@ -50,10 +52,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Response<List<Post>> retriveByTopic(int topicId, int page, int size) {
+    public Response<PageInfo<Post>> retriveByTopic(int topicId, int page, int size) {
         PageHelper.startPage(page, size);
         List<Post> result = postDao.retriveByTopic(topicId);
-        return Response.success(result);
+        PageInfo<Post> postPageInfo = new PageInfo<>(result);
+        return Response.success(postPageInfo);
     }
 
     @Override

@@ -4,6 +4,15 @@ public class UsersSections extends BaseModel {
     private User user;
     private Section section;
 
+    public UsersSections() {
+
+    }
+
+    public UsersSections(User user, Section section) {
+        this.user = user;
+        this.section = section;
+    }
+
     public User getUser() {
         return user;
     }

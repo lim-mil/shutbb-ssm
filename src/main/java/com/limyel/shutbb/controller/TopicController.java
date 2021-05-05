@@ -1,5 +1,6 @@
 package com.limyel.shutbb.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.common.Response;
@@ -25,10 +26,7 @@ public class TopicController {
     @ResponseBody
     public Response<Integer> create(@RequestBody Topic topic, @CurrentUser User user, HttpServletRequest request, HttpServletResponse response) {
         topic.setUser(user);
-        Response serviceResponse = topicService.create(topic);
-
-        response.setStatus(serviceResponse.getCode());
-        return serviceResponse;
+        return topicService.create(topic);
     }
 
 //    @GetMapping("/section/{sectionId}")
@@ -41,8 +39,8 @@ public class TopicController {
     @GetMapping("/section/{sectionName}")
     @ResponseBody
     @IgnoreAuth
-    public Response<List<TopicShort>> retriveBySectionName(@PathVariable("sectionName") String sectionName) {
-        return topicService.retriveBySectionName(sectionName);
+    public Response<PageInfo<TopicShort>> retriveBySectionName(@PathVariable("sectionName") String sectionName, @RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+        return topicService.retriveBySectionName(sectionName, page, pageSize);
     }
 
     @GetMapping("/user")
@@ -70,5 +68,12 @@ public class TopicController {
         Response<Integer> serviceResponse = topicService.deleteById(topicId, user);
         response.setStatus(serviceResponse.getCode());
         return serviceResponse;
+    }
+
+    @GetMapping("/{topicId}")
+    @ResponseBody
+    @IgnoreAuth
+    public Response<Topic> retriveById(@PathVariable("topicId") int topicId) {
+        return topicService.retriveById(topicId);
     }
 }

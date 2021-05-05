@@ -26,6 +26,7 @@
         <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
         <property name="plugins">
             <array>
+<!--                PageHelper 配置-->
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <value>

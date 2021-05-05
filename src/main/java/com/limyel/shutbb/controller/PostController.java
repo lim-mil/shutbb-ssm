@@ -1,6 +1,7 @@
 package com.limyel.shutbb.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.annotation.Page;
@@ -27,14 +28,14 @@ public class PostController {
      * 获取某 topic 下的 post
      * @param topicId
      * @param page
-     * @param size
+     * @param pageSize
      * @return
      */
     @GetMapping("/topic/{topicId}")
     @IgnoreAuth
     @ResponseBody
-    public Response<List<Post>> retriveByTopic(@PathVariable("topicId") int topicId, @Page int page, @Size int size) {
-        return postService.retriveByTopic(topicId, page, size);
+    public Response<PageInfo<Post>> retriveByTopic(@PathVariable("topicId") int topicId, @RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+        return postService.retriveByTopic(topicId, page, pageSize);
     }
 
     /**

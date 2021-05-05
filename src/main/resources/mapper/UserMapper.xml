@@ -26,7 +26,7 @@
     </insert>
     
     <select id="retriveById" resultMap="user">
-        select id, created_at, username, avatar from user where id=#{id};
+        select <include refid="allFields"/> from user where id=#{id};
     </select>
 
     <select id="retrive" resultType="com.limyel.shutbb.entity.User" parameterType="com.limyel.shutbb.entity.User">

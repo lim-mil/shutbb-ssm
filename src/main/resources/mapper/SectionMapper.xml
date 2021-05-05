@@ -12,19 +12,19 @@
     <resultMap id="section" type="section">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <association property="user" column="user_id" select="com.limyel.shutbb.dao.UserDao.retriveById">
+        <association property="user" javaType="user" column="user_id">
             <id property="id" column="id"/>
             <result property="username" column="username"/>
             <result property="status" column="status"/>
             <result property="avatar" column="avatar"/>
         </association>
-        <collection property="topics" column="id" select="com.limyel.shutbb.dao.TopicDao.retriveBySection">
+        <collection property="topics" column="id" ofType="topic" select="com.limyel.shutbb.dao.TopicDao.retriveBySection">
             <id property="id" column="id"/>
             <result property="createdAt" column="created_at"/>
             <result property="title" column="title"/>
-            <association property="user" column="user_id" select="com.limyel.shutbb.dao.UserDao.retriveById">
+            <association property="user" javaType="user" column="user_id" select="com.limyel.shutbb.dao.UserDao.retriveById">
                 <id property="id" column="id"/>
-                <result property="username" column="username"/>
+                <result property="user.username" column="username"/>
             </association>
         </collection>
     </resultMap>
@@ -39,11 +39,11 @@
     </select>
 
     <select id="retriveByUser" resultType="section">
-        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId})
+        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId} and users_sections.deleted=false)
     </select>
 
     <select id="retriveOtherByUser" resultType="section">
-        select id, name from section where id not in (select section_id from users_sections where users_sections.user_id=#{userId})
+        select id, name from section where id not in (select section_id from users_sections where users_sections.user_id=#{userId} and users_sections.deleted=false)
     </select>
 
     <select id="retriveDefault" resultType="section">
@@ -51,7 +51,7 @@
     </select>
 
     <select id="retriveDefaultByUser" resultType="section">
-        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId})
+        select id, name from section where id in (select section_id from users_sections where users_sections.user_id=#{userId} and users_sections.deleted=false)
     </select>
 
     <select id="retriveAll" resultType="section">

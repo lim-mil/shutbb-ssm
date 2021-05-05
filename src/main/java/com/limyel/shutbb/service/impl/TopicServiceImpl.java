@@ -1,5 +1,8 @@
 package com.limyel.shutbb.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.dao.PostDao;
 import com.limyel.shutbb.dao.TopicDao;
@@ -34,12 +37,13 @@ public class TopicServiceImpl implements TopicService {
         if (result == 0) {
             return Response.badRequest(result);
         }
-        return Response.success(result);
+        return Response.success("发布成功", topic.getId());
     }
 
     @Override
     public Response<Topic> retriveById(int id) {
-        return null;
+        Topic topic = topicDao.retriveById(id);
+        return Response.success(topic);
     }
 
     @Override
@@ -49,7 +53,8 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Response<List<TopicShort>> retriveBySectionName(String sectionName) {
+    public Response<PageInfo<TopicShort>> retriveBySectionName(String sectionName, int page, int pageSize) {
+        Page objectPage = PageHelper.startPage(page, pageSize);
         List<Topic> topics = topicDao.retriveBySectionName(sectionName);
         List<TopicShort> result = new LinkedList<>();
         for (Topic topic: topics) {
@@ -59,7 +64,8 @@ public class TopicServiceImpl implements TopicService {
             topicShort.setLatestPost(postDao.retriveLatest(topic.getId()));
             result.add(topicShort);
         }
-        return Response.success(result);
+        PageInfo<TopicShort> pageInfo = new PageInfo<>(result);
+        return Response.success(pageInfo);
     }
 
     @Override
