@@ -35,7 +35,7 @@ public class UserController {
     @PostMapping(value = "/register")
     @ResponseBody
     public Response<String> register(@RequestBody User user, @JsonItem String checkPassword, HttpServletRequest request) {
-        return userService.create(user, checkPassword);
+        return userService.create(user, checkPassword, request);
     }
 
     @IgnoreAuth

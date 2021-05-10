@@ -49,10 +49,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response<String> create(User user, String confirmPassword) {
+    public Response<String> create(User user, String confirmPassword, HttpServletRequest request) {
         if (!user.getPassword().equals(confirmPassword)) {
             return Response.badRequest();
         }
+        // 设置默认头像
+        StringBuffer url = request.getRequestURL();
+        String uri = request.getRequestURI();
+        String avatarURL = url.replace(url.indexOf(uri), url.length(), "/upload/shutbb/avatars/"+"default.jpg").toString();
+        user.setAvatar(avatarURL);
+        System.out.println(avatarURL);
+        System.out.println(user.getAvatar());
+
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
         user.setStatus(USERSTATUS.INACTIVED.getCode());
         String code = CodeUtil.getCode();

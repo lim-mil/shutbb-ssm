@@ -49,8 +49,8 @@
         select t.id, t.created_at, t.title, u.id, u.username, u.status, u.avatar from topic t, user u where t.section_id in (select id from section where name=#{sectionName}) and u.id=t.user_id order by created_at desc
     </select>
 
-    <select id="retriveByUser" resultType="com.limyel.shutbb.entity.Topic">
-        select <include refid="retriveFields"/> from topic where deleted=false and draft=false and user_id=#{userId};
+    <select id="retriveByUser" resultMap="topic">
+        select <include refid="allFieldsT"/>, s.id, s.name from topic t, section s where t.deleted=false and t.draft=false and t.user_id=#{userId} and s.id=t.section_id order by created_at desc
     </select>
 
     <select id="retriveDraft" resultType="com.limyel.shutbb.entity.Topic">

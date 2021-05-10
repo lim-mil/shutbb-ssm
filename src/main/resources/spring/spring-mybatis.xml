@@ -30,8 +30,6 @@
                 <bean class="com.github.pagehelper.PageInterceptor">
                     <property name="properties">
                         <value>
-                            helperDialect=mysql
-                            offsetAsPageNum=true
                             rowBoundsWithCount=true
                             pageSizeZero=true
                             reasonable=true

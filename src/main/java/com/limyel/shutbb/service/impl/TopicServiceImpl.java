@@ -10,6 +10,7 @@ import com.limyel.shutbb.dto.TopicShort;
 import com.limyel.shutbb.entity.Topic;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.TopicService;
+import com.limyel.shutbb.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,16 +57,17 @@ public class TopicServiceImpl implements TopicService {
     public Response<PageInfo<TopicShort>> retriveBySectionName(String sectionName, int page, int pageSize) {
         Page objectPage = PageHelper.startPage(page, pageSize);
         List<Topic> topics = topicDao.retriveBySectionName(sectionName);
-        List<TopicShort> result = new LinkedList<>();
-        for (Topic topic: topics) {
+        PageInfo<Topic> pageInfo = new PageInfo<>(topics);
+        List<TopicShort> topicShorts = new LinkedList<>();
+        for (Topic topic: pageInfo.getList()) {
             TopicShort topicShort = new TopicShort();
             topicShort.setTopic(topic);
             topicShort.setPostNum(postDao.countByTopic(topic.getId()));
             topicShort.setLatestPost(postDao.retriveLatest(topic.getId()));
-            result.add(topicShort);
+            topicShorts.add(topicShort);
         }
-        PageInfo<TopicShort> pageInfo = new PageInfo<>(result);
-        return Response.success(pageInfo);
+        PageInfo<TopicShort> result = PageUtil.convert(pageInfo, topicShorts);
+        return Response.success(result);
     }
 
     @Override

@@ -22,7 +22,7 @@
     </resultMap>
 
     <insert id="create" parameterType="user" keyProperty="id">
-        insert into user (username, email, password) values (#{username}, #{email}, #{password})
+        insert into user (username, email, password, avatar) values (#{username}, #{email}, #{password}, #{avatar})
     </insert>
     
     <select id="retriveById" resultMap="user">
@@ -30,7 +30,7 @@
     </select>
 
     <select id="retrive" resultType="com.limyel.shutbb.entity.User" parameterType="com.limyel.shutbb.entity.User">
-        select * from user
+        select <include refid="allFields"/> from user
         <where>
             <if test="username != null">username=#{username}</if>
             <if test="email != null">and email=#{email}</if>

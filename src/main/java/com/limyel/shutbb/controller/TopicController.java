@@ -76,4 +76,10 @@ public class TopicController {
     public Response<Topic> retriveById(@PathVariable("topicId") int topicId) {
         return topicService.retriveById(topicId);
     }
+
+    @GetMapping("")
+    @ResponseBody
+    public Response<List<Topic>> retrive(@CurrentUser User user) {
+        return topicService.retriveByUser(user.getId());
+    }
 }
