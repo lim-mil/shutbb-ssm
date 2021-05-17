@@ -4,7 +4,6 @@ import com.limyel.shutbb.annotation.CurrentUser;
 import com.limyel.shutbb.annotation.IgnoreAuth;
 import com.limyel.shutbb.annotation.JsonItem;
 import com.limyel.shutbb.common.Response;
-import com.limyel.shutbb.dao.UsersSectionsDao;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.service.UserService;
@@ -23,13 +22,6 @@ public class UserController {
 
     @Autowired
     private AuthorizationService authorizationService;
-
-    private UsersSectionsDao usersSectionsDao;
-
-    @Autowired
-    public void setUsersSectionsDao(UsersSectionsDao usersSectionsDao) {
-        this.usersSectionsDao = usersSectionsDao;
-    }
 
     @IgnoreAuth
     @PostMapping(value = "/register")

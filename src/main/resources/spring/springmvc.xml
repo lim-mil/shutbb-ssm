@@ -15,7 +15,7 @@
         <mvc:argument-resolvers>
             <bean class="com.limyel.shutbb.resolver.CurrentUserResolver">
                 <property name="authorizationUtil" ref="authorizationUtil"/>
-                <property name="userDao" ref="userDao"/>
+                <property name="userMapper" ref="userMapper"/>
             </bean>
             <bean class="com.limyel.shutbb.resolver.PageSizeResolver"/>
             <bean class="com.limyel.shutbb.resolver.JsonItemResolver"/>

@@ -36,7 +36,7 @@ public class AuthorizationUtil {
             DecodedJWT jwt = verifier.verify(token);
             user = new User();
             user.setUsername(jwt.getClaim("username").asString());
-            user.setId(jwt.getClaim("id").asInt());
+            user.setId(jwt.getClaim("id").asString());
         } catch (TokenExpiredException e) {
 //            e.printStackTrace();
         }

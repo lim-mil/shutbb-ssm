@@ -2,7 +2,7 @@ package com.limyel.shutbb.service.impl;
 
 import com.limyel.shutbb.common.Response;
 import com.limyel.shutbb.common.USERSTATUS;
-import com.limyel.shutbb.dao.UserDao;
+import com.limyel.shutbb.dao.UserMapper;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.UserService;
 import com.limyel.shutbb.util.*;
@@ -17,36 +17,21 @@ import java.io.IOException;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
+    
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Autowired
     private EmailUtil emailUtil;
+    
+    @Autowired
     private RedisUtil redisUtil;
+    
+    @Autowired
     private ConfigUtil configUtil;
+    
+    @Autowired
     private AuthorizationUtil authorizationUtil;
-
-    @Autowired
-    public void setAuthorizationUtil(AuthorizationUtil authorizationUtil) {
-        this.authorizationUtil = authorizationUtil;
-    }
-
-    @Autowired
-    public void setConfigUtil(ConfigUtil configUtil) {
-        this.configUtil = configUtil;
-    }
-
-    @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    @Autowired
-    public void setEmailUtil(EmailUtil emailUtil) {
-        this.emailUtil = emailUtil;
-    }
-
-    @Autowired
-    public void setRedisUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
 
     @Override
     public Response<String> create(User user, String confirmPassword, HttpServletRequest request) {
@@ -64,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
         user.setStatus(USERSTATUS.INACTIVED.getCode());
         String code = CodeUtil.getCode();
-        int result = userDao.create(user);
+        int result = userMapper.insertSelective(user);
         if (result == 0) {
             return Response.badRequest();
         }
@@ -72,7 +57,7 @@ public class UserServiceImpl implements UserService {
         while (redisUtil.getRedisTemplate().opsForHash().hasKey("shutbb_active_code", code)) {
             code = CodeUtil.getCode();
         }
-        redisUtil.getRedisTemplate().opsForHash().put("shutbb_active_code", code, Integer.toString(user.getId()));
+        redisUtil.getRedisTemplate().opsForHash().put("shutbb_active_code", code, user.getId());
         emailUtil.sendEmail(user.getEmail(), code);
 
         return Response.success(authorizationUtil.generateJwtToken(user));
@@ -81,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response<String> login(String usernameOrEmail, String password) {
         password = DigestUtils.md5Hex(password+configUtil.getMd5Salt());
-        User user = userDao.login(usernameOrEmail, password);
+        User user = userMapper.login(usernameOrEmail, password);
         if (user != null) {
             System.out.println(password);
             return Response.success(authorizationUtil.generateJwtToken(user));
@@ -90,23 +75,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User retriveById(int id) {
-        return userDao.retriveById(id);
+    public User retriveById(String id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public User retrive(User user) {
-        return userDao.retrive(user);
+        return userMapper.selectByPrimaryKey(user.getId());
     }
 
     @Override
     public int update(User user) {
-        return userDao.update(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
-    public int deleteById(int id) {
-        return userDao.deleteById(id);
+    public int deleteById(String id) {
+        return userMapper.deleteByLogic(id);
     }
 
     @Override
@@ -115,11 +100,11 @@ public class UserServiceImpl implements UserService {
         if (value == null) {
             return 0;
         }
-        int id = Integer.parseInt((String) value);
-        User user = userDao.retriveById(id);
+        String id = (String) value;
+        User user = userMapper.selectByPrimaryKey(id);
         user.setStatus(USERSTATUS.NORMAL.getCode());
         redisUtil.getRedisTemplate().opsForHash().delete("shutbb_active_code", code);
-        userDao.update(user);
+        userMapper.updateByPrimaryKeySelective(user);
         return 1;
     }
 
@@ -145,7 +130,7 @@ public class UserServiceImpl implements UserService {
             String uri = request.getRequestURI();
             String avatarURL = url.replace(url.indexOf(uri), url.length(), "/upload/shutbb/avatars/"+newFileName.toString()).toString();
             user.setAvatar(avatarURL);
-            userDao.update(user);
+            userMapper.updateByPrimaryKeySelective(user);
             targetFile.mkdirs();
         }
 

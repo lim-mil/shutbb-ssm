@@ -1,6 +1,12 @@
-package com.limyel.shutbb.entity;
+package com.limyel.shutbb.dto;
 
-public class UsersTopics extends BaseModel {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.limyel.shutbb.entity.Post;
+import com.limyel.shutbb.entity.Topic;
+import com.limyel.shutbb.entity.User;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PostExecution extends Post {
     private User user;
     private Topic topic;
 

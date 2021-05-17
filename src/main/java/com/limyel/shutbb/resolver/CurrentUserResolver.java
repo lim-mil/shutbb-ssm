@@ -2,7 +2,7 @@ package com.limyel.shutbb.resolver;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.limyel.shutbb.annotation.CurrentUser;
-import com.limyel.shutbb.dao.UserDao;
+import com.limyel.shutbb.dao.UserMapper;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.util.AuthorizationUtil;
@@ -14,14 +14,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     private AuthorizationUtil authorizationUtil;
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     public void setAuthorizationUtil(AuthorizationUtil authorizationUtil) {
         this.authorizationUtil = authorizationUtil;
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
         String token = authorizationHeader.split(" ")[1];
         User user = authorizationUtil.parseJwtToken(token);
         if (user != null)
-            user = userDao.retriveById(user.getId());
+            user = userMapper.selectByPrimaryKey(user.getId());
         return user;
     }
 }

@@ -9,9 +9,11 @@ import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.AuthorizationService;
 import com.limyel.shutbb.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
 public class AuthorizationServiceImpl implements AuthorizationService {
     private ConfigUtil configUtil;
 
@@ -37,7 +39,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             DecodedJWT jwt = verifier.verify(token);
             User user = new User();
             user.setUsername(jwt.getClaim("username").asString());
-            user.setId(jwt.getClaim("id").asInt());
+            user.setId(jwt.getClaim("id").asString());
             return user;
         } catch (TokenExpiredException e) {
             e.printStackTrace();

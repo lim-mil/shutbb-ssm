@@ -1,85 +1,57 @@
 package com.limyel.shutbb.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.limyel.shutbb.common.Response;
-import com.limyel.shutbb.dao.PostDao;
-import com.limyel.shutbb.dao.TopicDao;
-import com.limyel.shutbb.dto.TopicShort;
+import com.limyel.shutbb.dao.PostMapper;
+import com.limyel.shutbb.dao.TopicMapper;
+import com.limyel.shutbb.dto.PostExecution;
+import com.limyel.shutbb.dto.TopicExecution;
 import com.limyel.shutbb.entity.Topic;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.TopicService;
-import com.limyel.shutbb.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class TopicServiceImpl implements TopicService {
-    private TopicDao topicDao;
-    private PostDao postDao;
 
     @Autowired
-    public void setTopicDao(TopicDao topicDao) {
-        this.topicDao = topicDao;
-    }
+    TopicMapper topicMapper;
 
     @Autowired
-    public void setPostDao(PostDao postDao) {
-        this.postDao = postDao;
-    }
+    PostMapper postMapper;
 
     @Override
     public Response<Integer> create(Topic topic) {
-        int result = topicDao.create(topic);
-        if (result == 0) {
-            return Response.badRequest(result);
-        }
-        return Response.success("发布成功", topic.getId());
+        return null;
     }
 
     @Override
     public Response<Topic> retriveById(int id) {
-        Topic topic = topicDao.retriveById(id);
-        return Response.success(topic);
+        return null;
     }
 
     @Override
-    public Response<List<Topic>> retriveBySection(int sectionId) {
-        List<Topic> result = topicDao.retriveBySection(sectionId);
-        return Response.success(result);
+    public Response<List<Topic>> retriveBySection(int SectionId) {
+        return null;
     }
 
     @Override
-    public Response<PageInfo<TopicShort>> retriveBySectionName(String sectionName, int page, int pageSize) {
-        Page objectPage = PageHelper.startPage(page, pageSize);
-        List<Topic> topics = topicDao.retriveBySectionName(sectionName);
-        PageInfo<Topic> pageInfo = new PageInfo<>(topics);
-        List<TopicShort> topicShorts = new LinkedList<>();
-        for (Topic topic: pageInfo.getList()) {
-            TopicShort topicShort = new TopicShort();
-            topicShort.setTopic(topic);
-            topicShort.setPostNum(postDao.countByTopic(topic.getId()));
-            topicShort.setLatestPost(postDao.retriveLatest(topic.getId()));
-            topicShorts.add(topicShort);
-        }
-        PageInfo<TopicShort> result = PageUtil.convert(pageInfo, topicShorts);
-        return Response.success(result);
+    public Response<PageInfo<TopicExecution>> retriveBySectionName(String sectionName, int page, int pageSize) {
+        return null;
     }
 
     @Override
     public Response<List<Topic>> retriveByUser(int userId) {
-        List<Topic> result = topicDao.retriveByUser(userId);
-        return Response.success(result);
+        return null;
     }
 
     @Override
     public Response<List<Topic>> retriveDraft(int userId) {
-        List<Topic> result = topicDao.retriveDraft(userId);
-        return Response.success(result);
+        return null;
     }
 
     @Override
@@ -89,10 +61,35 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Response<Integer> deleteById(int id, User user) {
-        int result = topicDao.deleteById(id, user);
-        if (result == 0) {
-            return Response.badRequest(result);
+        return null;
+    }
+
+    @Override
+    public Response<PageInfo<TopicExecution>> selectBySectionId(Topic topic, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<TopicExecution> topics = topicMapper.selectExecutionSelective(topic);
+        PageInfo<TopicExecution> pageInfo = new PageInfo<>(topics);
+        getLatestPost(pageInfo.getList());
+        return Response.success(pageInfo);
+    }
+
+    @Override
+    public Response<PageInfo<TopicExecution>> select(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<TopicExecution> result = topicMapper.selectExecutionSelective(null);
+        PageInfo<TopicExecution> pageInfo = new PageInfo<>(result);
+//        for (TopicExecution topicExecution: pageInfo.getList()) {
+//            PostExecution latestPost = postMapper.selectLatestByTopicId(topicExecution.getId());
+//            topicExecution.setLatestPost(latestPost);
+//        }
+        getLatestPost(pageInfo.getList());
+        return Response.success(pageInfo);
+    }
+
+    private void getLatestPost(List<TopicExecution> topics) {
+        for (TopicExecution topicExecution: topics) {
+            PostExecution latestPost = postMapper.selectLatestByTopicId(topicExecution.getId());
+            topicExecution.setLatestPost(latestPost);
         }
-        return Response.success(result);
     }
 }

@@ -1,8 +1,14 @@
 package com.limyel.shutbb.util;
 
+import java.util.Properties;
+
 public class ConfigUtil {
     private String jwtSecret;
     private String md5Salt;
+
+    public ConfigUtil() {
+
+    }
 
     public String getJwtSecret() {
         return jwtSecret;
