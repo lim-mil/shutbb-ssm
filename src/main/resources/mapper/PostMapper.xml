@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="com.limyel.shutbb.entity.Post">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="topic_id" jdbcType="VARCHAR" property="topicId" />
+    <result column="draft" jdbcType="BIT" property="draft" />
+    <result column="target_id" jdbcType="VARCHAR" property="targetId" />
+    <result column="floor" jdbcType="INTEGER" property="floor" />
+  </resultMap>
+  <resultMap id="PostExecutionMap" type="com.limyel.shutbb.dto.PostExecution">
+    <id column="id" property="id"/>
+    <result column="created_at" property="createdAt"/>
+    <result column="updated_at" property="updatedAt"/>
+    <result column="deleted" property="deleted"/>
+    <result column="content" property="content"/>
+    <result column="draft" property="draft"/>
+    <result column="floor" property="floor"/>
+    <association column="user_id" property="user" javaType="com.limyel.shutbb.entity.User">
+      <id column="u_id" property="id"/>
+      <result column="u_status" property="status"/>
+      <result column="u_username" property="username"/>
+      <result column="u_avatar" property="avatar"/>
+    </association>
+    <association column="topic_id" property="topic" javaType="com.limyel.shutbb.entity.Topic">
+      <id column="t_id" property="id"/>
+      <result column="t_created_at" property="createdAt"/>
+      <result column="t_updated_at" property="updatedAt"/>
+      <result column="t_title" property="title"/>
+      <result column="t_user_id" property="userId"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created_at, updated_at, deleted, content, user_id, topic_id, draft, target_id, 
+    floor
+  </sql>
+  <sql id="Base_Column_List_P">
+    p.id, p.created_at, p.updated_at, p.deleted, p.content, p.user_id, p.topic_id, p.draft, p.target_id,
+    p.floor
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.limyel.shutbb.entity.Post">
+    insert into post (id, created_at, updated_at, 
+      deleted, content, user_id, 
+      topic_id, draft, target_id, 
+      floor)
+    values (#{id,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+      #{topicId,jdbcType=INTEGER}, #{draft,jdbcType=BIT}, #{targetId,jdbcType=INTEGER}, 
+      countFloor(#{topicId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.limyel.shutbb.entity.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="topicId != null">
+        topic_id,
+      </if>
+      <if test="draft != null">
+        draft,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      floor
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="topicId != null">
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="draft != null">
+        #{draft,jdbcType=BIT},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      countFloor(#{topicId,jdbcType=INTEGER})
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.limyel.shutbb.entity.Post">
+    update post
+    <set>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="topicId != null">
+        topic_id = #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="draft != null">
+        draft = #{draft,jdbcType=BIT},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.limyel.shutbb.entity.Post">
+    update post
+    set created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+      content = #{content,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      topic_id = #{topicId,jdbcType=INTEGER},
+      draft = #{draft,jdbcType=BIT},
+      target_id = #{targetId,jdbcType=INTEGER},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectLatestByTopicId" parameterType="integer" resultMap="PostExecutionMap">
+    select <include refid="Base_Column_List_P"/>, u.id u_id, u.status u_status, u.username u_username,
+    u.avatar u_avatar, t.id t_id, t.created_at t_created_at, t.updated_at t_updated_at, t.title t_title,
+    t.user_id t_user_id from post p, user u, topic t where p.topic_id=#{topicId} and u.id=p.user_id and
+    t.id=p.topic_id order by created_at desc limit 1
+  </select>
+
+  <select id="countByTopicId" parameterType="integer" resultType="integer">
+    select count(id) from post where topic_id=#{topicId}
+  </select>
+</mapper>

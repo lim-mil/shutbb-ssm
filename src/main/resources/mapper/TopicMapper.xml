@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.limyel.shutbb.dao.TopicMapper">
+  <resultMap id="BaseResultMap" type="com.limyel.shutbb.entity.Topic">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="section_id" jdbcType="VARCHAR" property="sectionId" />
+    <result column="draft" jdbcType="BIT" property="draft" />
+  </resultMap>
+  <resultMap id="TopicExecutionMap" type="com.limyel.shutbb.dto.TopicExecution">
+    <id column="id" property="id"/>
+    <result column="created_at" property="createdAt"/>
+    <result column="updated_at" property="updatedAt"/>
+    <result column="deleted" property="deleted"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="draft" property="draft"/>
+    <association column="user_id" property="user" javaType="com.limyel.shutbb.entity.User">
+      <id column="u_id" property="id"/>
+      <result column="u_status" property="status"/>
+      <result column="u_username" property="username"/>
+      <result column="u_avatar" property="avatar"/>
+    </association>
+    <association column="sectoin_id" property="section" javaType="com.limyel.shutbb.entity.Section">
+      <id column="s_id" property="id"/>
+      <result column="s_name" property="name"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created_at, updated_at, deleted, title, content, user_id, section_id, draft
+  </sql>
+  <sql id="Base_Column_List_T">
+    t.id, t.created_at, t.updated_at, t.deleted, t.title, t.content, t.user_id, t.section_id, t.draft
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from topic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.limyel.shutbb.entity.Topic">
+    insert into topic (id, created_at, updated_at, 
+      deleted, title, content, 
+      user_id, section_id, draft
+      )
+    values (#{id,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=BIT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{userId,jdbcType=INTEGER}, #{sectionId,jdbcType=INTEGER}, #{draft,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.limyel.shutbb.entity.Topic">
+    insert into topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="sectionId != null">
+        section_id,
+      </if>
+      <if test="draft != null">
+        draft,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null">
+        #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="draft != null">
+        #{draft,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.limyel.shutbb.entity.Topic">
+    update topic
+    <set>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null">
+        section_id = #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="draft != null">
+        draft = #{draft,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.limyel.shutbb.entity.Topic">
+    update topic
+    set created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      section_id = #{sectionId,jdbcType=INTEGER},
+      draft = #{draft,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from topic where user_id=#{userId}
+  </select>
+
+  <select id="selectDraftByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from topic where draft=true and user_id=#{userId}
+  </select>
+
+  <update id="deleteByLogic" parameterType="integer">
+    update topic set deleted=true where id=#{id} and user_id=#{user.id}
+  </update>
+
+  <select id="selectExecutionSelective" resultMap="TopicExecutionMap" parameterType="com.limyel.shutbb.entity.Topic">
+    select <include refid="Base_Column_List_T"/>, u.id u_id, u.status u_status, u.username u_username, u.avatar u_avatar, s.id s_id, s.name s_name
+    from topic t, user u, section s
+    <where>
+      u.id=t.user_id and s.id=t.section_id
+      <if test="userId != null">
+        and t.user_id=#{userId}
+      </if>
+      <if test="sectionId != null">
+        and t.section_id=#{sectionId}
+      </if>
+      <if test="draft != null">
+        and t.draft=#{draft}
+      </if>
+      <if test="deleted != null">
+        and t.deleted=#{deleted}
+      </if>
+    </where>
+    order by created_at desc
+  </select>
+</mapper>
