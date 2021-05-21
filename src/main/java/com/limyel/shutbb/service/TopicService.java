@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface TopicService {
     Response<Integer> create(Topic topic);
-    Response<Topic> retriveById(int id);
-    Response<List<Topic>> retriveBySection(int SectionId);
+    Response<List<Topic>> retriveBySection(Long SectionId);
     Response<PageInfo<TopicExecution>> retriveBySectionName(String sectionName, int page, int pageSize);
-    Response<List<Topic>> retriveByUser(int userId);
-    Response<List<Topic>> retriveDraft(int userId);
+    Response<List<Topic>> retriveByUser(Long userId);
+    Response<List<Topic>> retriveDraft(Long userId);
     Response<Integer> update(Topic topic);
-    Response<Integer> deleteById(int id, User user);
+    Response<Integer> deleteById(Long id, User user);
 
     Response<PageInfo<TopicExecution>> selectBySectionId(Topic topic, int page, int pageSize);
     Response<PageInfo<TopicExecution>> select(int page, int pageSize);
+    Response<TopicExecution> retriveById(long topicId);
 }

@@ -19,6 +19,7 @@
         <mapper resource="mapper/SectionMapper.xml"/>
         <mapper resource="mapper/TopicMapper.xml"/>
         <mapper resource="mapper/PostMapper.xml"/>
+        <mapper resource="mapper/UsersSectionsMapper.xml"/>
     </mappers>
 
 </configuration>

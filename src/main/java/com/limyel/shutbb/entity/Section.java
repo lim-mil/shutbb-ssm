@@ -6,7 +6,7 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Section {
-    private String id;
+    private Long id;
 
     private Date createdAt;
 
@@ -16,11 +16,11 @@ public class Section {
 
     private String name;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

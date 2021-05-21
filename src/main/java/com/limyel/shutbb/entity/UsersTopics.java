@@ -6,7 +6,7 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsersTopics {
-    private String id;
+    private Long id;
 
     private Date createdAt;
 
@@ -14,15 +14,15 @@ public class UsersTopics {
 
     private Boolean deleted;
 
-    private String userId;
+    private Long userId;
 
-    private String topicId;
+    private Long topicId;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,19 +50,19 @@ public class UsersTopics {
         this.deleted = deleted;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getTopicId() {
+    public Long getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(String topicId) {
+    public void setTopicId(Long topicId) {
         this.topicId = topicId;
     }
 }

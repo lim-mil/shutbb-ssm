@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserService {
     Response<String> create(User user, String confirmPassword, HttpServletRequest request);
     Response<String> login(String usernameOrEmail, String password);
-    User retriveById(String id);
+    User retriveById(Long id);
     User retrive(User user);
     int update(User user);
-    int deleteById(String id);
+    int deleteById(Long id);
     int active(String code);
     Response<String> uploadAvatar(User user, MultipartFile file, HttpServletRequest request);
 }

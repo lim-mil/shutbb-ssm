@@ -6,7 +6,7 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post {
-    private String id;
+    private Long id;
 
     private Date createdAt;
 
@@ -16,21 +16,21 @@ public class Post {
 
     private String content;
 
-    private String userId;
+    private Long userId;
 
-    private String topicId;
+    private Long topicId;
 
     private Boolean draft;
 
-    private String targetId;
+    private Long targetId;
 
     private Integer floor;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,19 +66,19 @@ public class Post {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getTopicId() {
+    public Long getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(String topicId) {
+    public void setTopicId(Long topicId) {
         this.topicId = topicId;
     }
 
@@ -90,11 +90,11 @@ public class Post {
         this.draft = draft;
     }
 
-    public String getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

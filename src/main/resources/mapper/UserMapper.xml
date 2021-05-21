@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.limyel.shutbb.entity.User">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -17,32 +17,33 @@
     id, created_at, updated_at, username, email, password, signature, status, deleted, 
     avatar
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.limyel.shutbb.entity.User">
     insert into user (id, created_at, updated_at, 
       username, email, password, 
       signature, status, deleted, 
       avatar)
-    values (#{id,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
       #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{signature,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, 
       #{avatar,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.limyel.shutbb.entity.User">
+<!--    <selectKey order="AFTER" resultType="string" keyProperty="id">-->
+<!--      select id from user where username=#{username}-->
+<!--    </selectKey>-->
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
+      id,
       <if test="createdAt != null">
         created_at,
       </if>
@@ -73,7 +74,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
@@ -135,7 +136,7 @@
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.limyel.shutbb.entity.User">
     update user
@@ -148,14 +149,14 @@
       status = #{status,jdbcType=INTEGER},
       deleted = #{deleted,jdbcType=BIT},
       avatar = #{avatar,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 
   <select id="login" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from user where (username=#{usernameOrEmail} or email=#{usernameOrEmail}) and password=#{password}
   </select>
 
-  <update id="deleteByLogic" parameterType="integer">
+  <update id="deleteByLogic" parameterType="java.lang.Long">
     update user set deleted=true where id=#{id}
   </update>
 </mapper>

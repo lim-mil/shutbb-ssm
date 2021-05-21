@@ -6,7 +6,7 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Topic {
-    private String id;
+    private Long id;
 
     private Date createdAt;
 
@@ -18,17 +18,17 @@ public class Topic {
 
     private String content;
 
-    private String userId;
+    private Long userId;
 
-    private String sectionId;
+    private Long sectionId;
 
     private Boolean draft;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -72,19 +72,19 @@ public class Topic {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(String sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 

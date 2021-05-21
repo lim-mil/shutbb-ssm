@@ -10,6 +10,7 @@ import com.limyel.shutbb.dto.TopicExecution;
 import com.limyel.shutbb.entity.Topic;
 import com.limyel.shutbb.entity.User;
 import com.limyel.shutbb.service.TopicService;
+import com.limyel.shutbb.util.MiniSnow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +25,18 @@ public class TopicServiceImpl implements TopicService {
     @Autowired
     PostMapper postMapper;
 
+    @Autowired
+    MiniSnow miniSnow;
+
     @Override
     public Response<Integer> create(Topic topic) {
-        return null;
+        topic.setId(miniSnow.nextId());
+        int result = topicMapper.insertSelective(topic);
+        return Response.success("创建成功", result);
     }
 
     @Override
-    public Response<Topic> retriveById(int id) {
-        return null;
-    }
-
-    @Override
-    public Response<List<Topic>> retriveBySection(int SectionId) {
+    public Response<List<Topic>> retriveBySection(Long SectionId) {
         return null;
     }
 
@@ -45,12 +46,12 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Response<List<Topic>> retriveByUser(int userId) {
+    public Response<List<Topic>> retriveByUser(Long userId) {
         return null;
     }
 
     @Override
-    public Response<List<Topic>> retriveDraft(int userId) {
+    public Response<List<Topic>> retriveDraft(Long userId) {
         return null;
     }
 
@@ -60,7 +61,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Response<Integer> deleteById(int id, User user) {
+    public Response<Integer> deleteById(Long id, User user) {
         return null;
     }
 
@@ -91,5 +92,11 @@ public class TopicServiceImpl implements TopicService {
             PostExecution latestPost = postMapper.selectLatestByTopicId(topicExecution.getId());
             topicExecution.setLatestPost(latestPost);
         }
+    }
+
+    @Override
+    public Response<TopicExecution> retriveById(long topicId) {
+        TopicExecution result = topicMapper.selectExecutionByPrimaryKey(topicId);
+        return Response.success(result);
     }
 }

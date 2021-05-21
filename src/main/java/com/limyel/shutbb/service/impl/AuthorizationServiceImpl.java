@@ -39,7 +39,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             DecodedJWT jwt = verifier.verify(token);
             User user = new User();
             user.setUsername(jwt.getClaim("username").asString());
-            user.setId(jwt.getClaim("id").asString());
+            user.setId(jwt.getClaim("id").asLong());
             return user;
         } catch (TokenExpiredException e) {
             e.printStackTrace();

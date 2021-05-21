@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface SectionService {
     Response<Integer> create(Section section);
-    Response<Section> retriveById(String id);
+    Response<Section> retriveById(Long id);
     Response<List<Section>> retriveDefault(User user);
     Response<UsersSectionsExecution> selectByUserId(User user);
     Response<List<Section>> retriveAll();
     Response<Integer> update(Section section);
-    Response<Integer> deleteById(String id);
+    Response<Integer> deleteById(Long id);
     Response<List<Section>> selectSelective(Section section);
     Response<List<Section>> selectFocus(User user);
     Response<UsersSectionsExecution> selectAll(User user);

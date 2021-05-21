@@ -31,7 +31,6 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
 
         String bearer = request.getHeader("Authorization");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
 
         if (bearer != null) {
             String token = bearer.split(" ")[1];
@@ -40,9 +39,11 @@ public class AuthorizetionInterceptor implements HandlerInterceptor {
             if (user != null) {
                 return true;
             } else {
+                PrintWriter out = response.getWriter();
                 out.println("登录过期，请重新登录");
             }
         } else {
+            PrintWriter out = response.getWriter();
             out.println("请先登录");
         }
 

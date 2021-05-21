@@ -23,7 +23,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Response<Section> retriveById(String id) {
+    public Response<Section> retriveById(Long id) {
         return null;
     }
 
@@ -50,7 +50,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Response<Integer> deleteById(String id) {
+    public Response<Integer> deleteById(Long id) {
         return null;
     }
 

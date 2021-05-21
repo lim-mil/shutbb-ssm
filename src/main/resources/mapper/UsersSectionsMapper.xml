@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.limyel.shutbb.dao.UsersSectionsMapper">
   <resultMap id="BaseResultMap" type="com.limyel.shutbb.entity.UsersSections">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="section_id" jdbcType="VARCHAR" property="sectionId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="section_id" jdbcType="BIGINT" property="sectionId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, created_at, updated_at, deleted, user_id, section_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from users_sections
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from users_sections
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.limyel.shutbb.entity.UsersSections">
     insert into users_sections (id, created_at, updated_at, 
       deleted, user_id, section_id
       )
-    values (#{id,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT}, #{userId,jdbcType=INTEGER}, #{sectionId,jdbcType=INTEGER}
+    values (#{id,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
+      #{deleted,jdbcType=BIT}, #{userId,jdbcType=BIGINT}, #{sectionId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.limyel.shutbb.entity.UsersSections">
@@ -54,7 +54,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
@@ -66,10 +66,10 @@
         #{deleted,jdbcType=BIT},
       </if>
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="sectionId != null">
-        #{sectionId,jdbcType=INTEGER},
+        #{sectionId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -86,21 +86,40 @@
         deleted = #{deleted,jdbcType=BIT},
       </if>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="sectionId != null">
-        section_id = #{sectionId,jdbcType=INTEGER},
+        section_id = #{sectionId,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.limyel.shutbb.entity.UsersSections">
     update users_sections
     set created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
-      user_id = #{userId,jdbcType=INTEGER},
-      section_id = #{sectionId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=BIGINT},
+      section_id = #{sectionId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectSelective" parameterType="com.limyel.shutbb.entity.UsersSections" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from users_sections
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id != null">
+        id=#{id}
+      </if>
+      <if test="deleted != null">
+        and deleted=#{deleted}
+      </if>
+      <if test="userId != null">
+        and user_id=#{userId}
+      </if>
+      <if test="sectionId != null">
+        and section_id=#{sectionId}
+      </if>
+    </trim>
+  </select>
+
 </mapper>

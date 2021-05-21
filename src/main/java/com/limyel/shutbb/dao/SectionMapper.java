@@ -5,13 +5,13 @@ import com.limyel.shutbb.entity.Section;
 import java.util.List;
 
 public interface SectionMapper {
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Section record);
 
     int insertSelective(Section record);
 
-    Section selectByPrimaryKey(String id);
+    Section selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Section record);
 
@@ -19,7 +19,7 @@ public interface SectionMapper {
 
     List<Section> selectSelective(Section section);
 
-    List<Section> selectFocusByUserId(String userId);
+    List<Section> selectFocusByUserId(Long userId);
 
-    List<Section> selectUnfoccusByUserId(String userId);
+    List<Section> selectUnfoccusByUserId(Long userId);
 }

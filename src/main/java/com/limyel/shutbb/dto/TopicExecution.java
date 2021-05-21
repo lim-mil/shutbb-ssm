@@ -13,6 +13,21 @@ public class TopicExecution extends Topic {
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private PostExecution latestPost;
 
+    public Topic toTopic() {
+        Topic topic = new Topic();
+        topic.setId(getId());
+        topic.setCreatedAt(getCreatedAt());
+        topic.setUpdatedAt(getUpdatedAt());
+        topic.setDeleted(getDeleted());
+        topic.setDraft(getDraft());
+        topic.setContent(getContent());
+        topic.setTitle(getTitle());
+        topic.setUserId(getUser().getId());
+        topic.setSectionId(getSection().getId());
+
+        return topic;
+    }
+
     public User getUser() {
         return user;
     }

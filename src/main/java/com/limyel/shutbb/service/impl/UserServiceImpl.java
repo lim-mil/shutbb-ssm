@@ -33,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthorizationUtil authorizationUtil;
 
+    @Autowired
+    private MiniSnow miniSnow;
+
     @Override
     public Response<String> create(User user, String confirmPassword, HttpServletRequest request) {
         if (!user.getPassword().equals(confirmPassword)) {
@@ -43,12 +46,11 @@ public class UserServiceImpl implements UserService {
         String uri = request.getRequestURI();
         String avatarURL = url.replace(url.indexOf(uri), url.length(), "/upload/shutbb/avatars/"+"default.jpg").toString();
         user.setAvatar(avatarURL);
-        System.out.println(avatarURL);
-        System.out.println(user.getAvatar());
 
         user.setPassword(DigestUtils.md5Hex(user.getPassword()+configUtil.getMd5Salt()));
         user.setStatus(USERSTATUS.INACTIVED.getCode());
         String code = CodeUtil.getCode();
+        user.setId(miniSnow.nextId());
         int result = userMapper.insertSelective(user);
         if (result == 0) {
             return Response.badRequest();
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
         while (redisUtil.getRedisTemplate().opsForHash().hasKey("shutbb_active_code", code)) {
             code = CodeUtil.getCode();
         }
-        redisUtil.getRedisTemplate().opsForHash().put("shutbb_active_code", code, user.getId());
+        redisUtil.getRedisTemplate().opsForHash().put("shutbb_active_code", code, String.valueOf(user.getId()));
         emailUtil.sendEmail(user.getEmail(), code);
 
         return Response.success(authorizationUtil.generateJwtToken(user));
@@ -75,7 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User retriveById(String id) {
+    public User retriveById(Long id) {
         return userMapper.selectByPrimaryKey(id);
     }
 
@@ -90,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteById(String id) {
+    public int deleteById(Long id) {
         return userMapper.deleteByLogic(id);
     }
 
@@ -100,7 +102,7 @@ public class UserServiceImpl implements UserService {
         if (value == null) {
             return 0;
         }
-        String id = (String) value;
+        Long id = (Long) value;
         User user = userMapper.selectByPrimaryKey(id);
         user.setStatus(USERSTATUS.NORMAL.getCode());
         redisUtil.getRedisTemplate().opsForHash().delete("shutbb_active_code", code);
