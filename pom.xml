@@ -238,20 +238,6 @@
       <version>1.9.6</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -266,6 +252,14 @@
       <version>1.2.3</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-elasticsearch</artifactId>
+      <version>4.1.1</version>
+    </dependency>
+
 
 
   </dependencies>

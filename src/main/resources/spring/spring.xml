@@ -24,6 +24,7 @@
     <import resource="classpath:spring/spring-kaptcha.xml"/>
     <import resource="classpath:spring/spring-redis.xml"/>
     <import resource="classpath:spring/spring-email.xml"/>
+    <import resource="classpath:spring/spring-elasticsearch.xml"/>
 
     <!--  自己的类  -->
     <bean class="com.limyel.shutbb.util.ConfigUtil" id="configUtil">

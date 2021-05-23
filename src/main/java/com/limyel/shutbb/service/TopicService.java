@@ -9,7 +9,7 @@ import com.limyel.shutbb.entity.User;
 import java.util.List;
 
 public interface TopicService {
-    Response<Integer> create(Topic topic);
+    Response<Long> create(Topic topic);
     Response<List<Topic>> retriveBySection(Long SectionId);
     Response<PageInfo<TopicExecution>> retriveBySectionName(String sectionName, int page, int pageSize);
     Response<List<Topic>> retriveByUser(Long userId);

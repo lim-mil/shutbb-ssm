@@ -24,5 +24,9 @@ public interface PostMapper {
 
     List<PostExecution> selectExecutionByTopicId(Long topicId);
 
+    PostExecution selectExecutionByPrimaryKey(Long postId);
+
     int getFloor(Long topicId);
+
+    List<Post> selectSelective(Post post);
 }

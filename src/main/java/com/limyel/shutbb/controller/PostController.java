@@ -34,4 +34,10 @@ public class PostController {
         post.setUserId(user.getId());
         return postService.create(post);
     }
+
+    @GetMapping("")
+    @ResponseBody
+    public Response<List<Post>> retrive(@CurrentUser User user) {
+        return postService.retriveByUser(user.getId());
+    }
 }

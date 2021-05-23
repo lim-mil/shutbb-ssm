@@ -53,7 +53,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response<List<Post>> retriveByUser(Long userId) {
-        return null;
+        Post post = new Post();
+        post.setUserId(userId);
+        return Response.success(postMapper.selectSelective(post));
     }
 
     @Override

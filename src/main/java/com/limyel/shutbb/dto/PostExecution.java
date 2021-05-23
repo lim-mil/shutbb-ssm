@@ -9,7 +9,7 @@ import com.limyel.shutbb.entity.User;
 public class PostExecution extends Post {
     private User user;
     private Topic topic;
-    private Post target;
+    private PostExecution target;
 
     public User getUser() {
         return user;
@@ -27,11 +27,20 @@ public class PostExecution extends Post {
         this.topic = topic;
     }
 
-    public Post getTarget() {
+    public PostExecution getTarget() {
         return target;
     }
 
-    public void setTarget(Post target) {
+    public void setTarget(PostExecution target) {
         this.target = target;
+    }
+
+    @Override
+    public String toString() {
+        return "PostExecution{" +
+                "user=" + user +
+                ", topic=" + topic +
+                ", target=" + target +
+                '}';
     }
 }

@@ -40,7 +40,7 @@ public class TopicController {
 
     @PostMapping("")
     @ResponseBody
-    public Response<Integer> create(@CurrentUser User user, @RequestBody TopicExecution topicExecution) {
+    public Response<Long> create(@CurrentUser User user, @RequestBody TopicExecution topicExecution) {
         topicExecution.setUser(user);
         return topicService.create(topicExecution.toTopic());
     }
@@ -50,5 +50,11 @@ public class TopicController {
     @IgnoreAuth
     public Response<TopicExecution> retriveById(@PathVariable long topicId) {
         return topicService.retriveById(topicId);
+    }
+
+    @GetMapping("")
+    @ResponseBody
+    public Response<List<Topic>> retrive(@CurrentUser User user) {
+        return topicService.retriveByUser(user.getId());
     }
 }

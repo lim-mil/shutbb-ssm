@@ -29,10 +29,10 @@ public class TopicServiceImpl implements TopicService {
     MiniSnow miniSnow;
 
     @Override
-    public Response<Integer> create(Topic topic) {
+    public Response<Long> create(Topic topic) {
         topic.setId(miniSnow.nextId());
-        int result = topicMapper.insertSelective(topic);
-        return Response.success("创建成功", result);
+        topicMapper.insertSelective(topic);
+        return Response.success("创建成功", topic.getId());
     }
 
     @Override
@@ -47,7 +47,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Response<List<Topic>> retriveByUser(Long userId) {
-        return null;
+        List<Topic> result = topicMapper.selectByUserId(userId);
+        return Response.success(result);
     }
 
     @Override

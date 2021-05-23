@@ -22,4 +22,10 @@ public class OperationController {
     public Response usersSections(@CurrentUser User user, @RequestBody Section section) {
         return operationService.updateUsersSections(user, section);
     }
+
+    @PatchMapping("/usersTopics")
+    @ResponseBody
+    public Response usersTopics(@CurrentUser User user) {
+        return null;
+    }
 }

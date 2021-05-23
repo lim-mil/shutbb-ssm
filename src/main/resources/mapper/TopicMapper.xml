@@ -163,7 +163,7 @@
   </update>
 
   <select id="selectByUserId" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from topic where user_id=#{userId}
+    select id, created_at, title, section_id from topic where user_id=#{userId} order by created_at desc
   </select>
 
   <select id="selectDraftByUserId" resultMap="BaseResultMap">

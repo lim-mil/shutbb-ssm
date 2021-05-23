@@ -105,4 +105,20 @@ public class Post {
     public void setFloor(Integer floor) {
         this.floor = floor;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deleted=" + deleted +
+                ", content='" + content + '\'' +
+                ", userId=" + userId +
+                ", topicId=" + topicId +
+                ", draft=" + draft +
+                ", targetId=" + targetId +
+                ", floor=" + floor +
+                '}';
+    }
 }

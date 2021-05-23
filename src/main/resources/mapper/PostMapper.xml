@@ -34,6 +34,7 @@
       <result column="t_title" property="title"/>
       <result column="t_user_id" property="userId"/>
     </association>
+    <association column="target_id" property="target" select="com.limyel.shutbb.dao.PostMapper.selectExecutionByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, created_at, updated_at, deleted, content, user_id, topic_id, draft, target_id, 
@@ -189,10 +190,51 @@
   <select id="selectExecutionByTopicId" parameterType="java.lang.Long" resultMap="PostExecutionMap">
     select <include refid="Base_Column_List_P"/>, u.id u_id, u.status u_status, u.username u_username, u.avatar u_avatar
     from post p, user u
-    where u.id=p.user_id and p.topic_id=#{topicId}
+    where u.id=p.user_id and p.topic_id=#{topicId} order by p.floor
+  </select>
+
+  <select id="selectExecutionByPrimaryKey" parameterType="java.lang.Long" resultMap="PostExecutionMap">
+    select <include refid="Base_Column_List_P"/>, u.id u_id, u.status u_status, u.username u_username, u.avatar u_avatar
+    from post p, user u
+    where u.id=p.user_id and p.id=#{postId}
   </select>
 
   <select id="getFloor" resultType="java.lang.Integer" parameterType="java.lang.Long">
     select countFloor(#{topicId,jdbcType=BIGINT})
+  </select>
+
+  <select id="selectSelective" parameterType="com.limyel.shutbb.entity.Post" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from post
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="createdAt != null">
+        and created_at = #{createdAt}
+      </if>
+      <if test="updatedAt != null">
+        and updated_at = #{updatedAt}
+      </if>
+      <if test="deleted != null">
+        and deleted = #{deleted}
+      </if>
+      <if test="content != null">
+        and content = #{content}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="topicId != null">
+        and topic_id = #{topicId}
+      </if>
+      <if test="draft != null">
+        and draft = #{draft}
+      </if>
+      <if test="targetId != null">
+        and target_id = #{targetId}
+      </if>
+    </trim>
+    order by created_at desc
   </select>
 </mapper>
